@@ -4,7 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="tthk_app.MainPage">
+             x:Class="tthk_app.MainPage"
+             Title="Tallinna Tööstushariduskeskus">
 
     <StackLayout>
         <!-- Place new controls here -->
