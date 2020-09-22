@@ -17,5 +17,10 @@ namespace tthk_app
         {
             InitializeComponent();
         }
+
+        private void InfoButton_Clicked(object sender, EventArgs e)
+        {
+
+        }
     }
 }
