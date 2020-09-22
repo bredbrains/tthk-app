@@ -1,33 +1,27 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
 <Shell
+    x:Class="tthk_app.AppShell"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:pages="clr-namespace:tthk_app"
-    x:Class="tthk_app.AppShell">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Shell.Resources>
-        <Style x:Key="BaseStyle"
-               TargetType="Element">
-            <Setter Property="Shell.BackgroundColor"
-                    Value="#A22538" />
-            <Setter Property="Shell.ForegroundColor"
-                    Value="White"/>
-            <Setter Property="Shell.TitleColor"
-                    Value="White"/>
-            <Setter Property="Shell.DisabledColor"
-                    Value="#B4FFFFFF" />
-            <Setter Property="Shell.UnselectedColor"
-                    Value="#95FFFFFF" />
+        <Style TargetType="Element" x:Key="BaseStyle">
+            <Setter Property="Shell.BackgroundColor" Value="#A22538" />
+            <Setter Property="Shell.ForegroundColor" Value="White" />
+            <Setter Property="Shell.TitleColor" Value="White" />
+            <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+            <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
         </Style>
     </Shell.Resources>
     <TabBar Style="{StaticResource BaseStyle}">
-        <Tab Title="Avaleht" Icon="home.png">
-            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}"></ShellContent>
+        <Tab Icon="home.png" Title="Avaleht">
+            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}" />
         </Tab>
-        <Tab Title="Muudatused" Icon="calendarx.png">
-            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}"></ShellContent>
+        <Tab Icon="calendarx.png" Title="Muudatused">
+            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}" />
         </Tab>
-        <Tab Title="Tunniplaan" Icon="calendar.png">
-            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}"></ShellContent>
+        <Tab Icon="calendar.png" Title="Tunniplaan">
+            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}" />
         </Tab>
     </TabBar>
 </Shell>
