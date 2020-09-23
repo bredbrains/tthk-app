@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    Title="Meist"
+    x:Class="tthk_app.InfoPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout BackgroundColor="#781d2a" Padding="0,25">
+                <Image HeightRequest="150" Source="bredbrainswhite.png" />
+            </StackLayout>
+            <StackLayout Margin="0,25,0,0">
+                <Label
+                    FontSize="40"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="BredBrains"
+                    VerticalTextAlignment="Center"
+                    x:Name="SiteOfBredBrains" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="Autorid:" />
+                <Label HorizontalTextAlignment="Center" Text="Nikolas Laus&#x0a;Lev Petryakov&#x0a;Vladislav Narožni&#x0a;Rostislav Konovalov" />
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    Text="TARpv19" />
+                <Label
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Margin="25"
+                    Text="Tallinna Tööstushariduskeskuse mobiilirakendus, millega saab vaadata tunniplaani ja tunniplaani muudatusi."
+                    VerticalOptions="FillAndExpand"
+                    VerticalTextAlignment="Center" />
+            </StackLayout>
+            <Label HorizontalTextAlignment="Center" Text="Rohkem saab vaadata:" />
+            <Label
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                Text="www.tthk.ee"
+                x:Name="SiteOfSchoolLink" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

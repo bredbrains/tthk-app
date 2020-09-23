@@ -3,6 +3,7 @@
 <Shell
     x:Class="tthk_app.AppShell"
     xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:pages="clr-namespace:tthk_app"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Shell.Resources>
         <Style TargetType="Element" x:Key="BaseStyle">
@@ -18,10 +19,10 @@
             <ShellContent ContentTemplate="{DataTemplate pages:MainPage}" />
         </Tab>
         <Tab Icon="calendarx.png" Title="Muudatused">
-            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate pages:ChangesPage}" />
         </Tab>
         <Tab Icon="calendar.png" Title="Tunniplaan">
-            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate pages:TimetablePage}" />
         </Tab>
     </TabBar>
 </Shell>

@@ -15,6 +15,7 @@ namespace tthk_app
 
         private void InfoButton_Clicked(object sender, EventArgs e)
         {
+            Navigation.PushAsync(new InfoPage());
         }
     }
 }

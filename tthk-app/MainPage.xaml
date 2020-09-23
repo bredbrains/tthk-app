@@ -1,38 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Class="tthk_app.MainPage"
-             Title="Tallinna Tööstushariduskeskus"
-             IconImageSource="tthklogo.png">
+
+<ContentPage
+    IconImageSource="tthklogo.png"
+    Title="Tallinna Tööstushariduskeskus"
+    mc:Ignorable="d"
+    x:Class="tthk_app.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
-            <Image Source="company_logo"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="Start" />
-            <Label Text="Hoefling Software"
-                   HorizontalOptions="StartAndExpand"
-                   VerticalOptions="CenterAndExpand"
-                   FontAttributes="Bold"
-                   FontSize="20"/>
-            <Image Source="company_logo"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="End" />
+            <Image
+                HorizontalOptions="Start"
+                Source="company_logo"
+                VerticalOptions="CenterAndExpand" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                HorizontalOptions="StartAndExpand"
+                Text="Hoefling Software"
+                VerticalOptions="CenterAndExpand" />
+            <Image
+                HorizontalOptions="End"
+                Source="company_logo"
+                VerticalOptions="CenterAndExpand" />
         </StackLayout>
     </NavigationPage.TitleView>
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="InfoButton"
-                     IconImageSource="info.png"
-                     Clicked="InfoButton_Clicked"/>
+        <ToolbarItem
+            Clicked="InfoButton_Clicked"
+            IconImageSource="info.png"
+            x:Name="InfoButton" />
     </ContentPage.ToolbarItems>
     <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="CenterAndExpand"
-           VerticalOptions="CenterAndExpand" />
+        <!--  Place new controls here  -->
+        <Label
+            HorizontalOptions="CenterAndExpand"
+            Text="Welcome to Xamarin.Forms!"
+            VerticalOptions="CenterAndExpand" />
     </StackLayout>
 
 </ContentPage>
