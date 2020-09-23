@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Input;
-using tthk_app.ParsingService;
 using Xamarin.Forms.Xaml;
 
 namespace tthk_app
@@ -18,16 +16,7 @@ namespace tthk_app
 
         private void Button_OnClicked(object sender, EventArgs e)
         {
-            Parsed.Text = "";
-            foreach (List<string> x in Parser.GetChanges())
-            {
-                foreach (string j in x)
-                {
-                    Parsed.Text += j + " ";
-                }
-            }
-
-            Parsed.Text += "<br>";
+            // Parse button.
         }
     }
 }
