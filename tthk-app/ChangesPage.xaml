@@ -10,7 +10,7 @@
         <ScrollView>
             <ListView
                 IsPullToRefreshEnabled="True"
-                ItemsSource="{Binding ChangeModel}}"
+                ItemsSource=""
                 x:Name="ChangesList">
                 <ListView.ItemTemplate>
                     <DataTemplate />
