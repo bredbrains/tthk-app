@@ -6,11 +6,20 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <ContentPage.Content>
-        <StackLayout>
-            <Label
-                HorizontalOptions="CenterAndExpand"
-                Text="Siia tulevad tunniplaani muudatused."
-                VerticalOptions="CenterAndExpand" />
-        </StackLayout>
+        <RefreshView IsRefreshing="False">
+            <ScrollView>
+                <StackLayout>
+                    <Button Clicked="Button_OnClicked" />
+                    <Label
+                        Text="Tekst tuleb siia"
+                        TextType="Html"
+                        x:Name="Parsed" />
+                    <Label
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Siia tulevad tunniplaani muudatused."
+                        VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+            </ScrollView>
+        </RefreshView>
     </ContentPage.Content>
 </ContentPage>

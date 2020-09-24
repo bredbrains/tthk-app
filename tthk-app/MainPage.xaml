@@ -10,24 +10,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal">
-            <Image
-                HorizontalOptions="Start"
-                Source="company_logo"
-                VerticalOptions="CenterAndExpand" />
-            <Label
-                FontAttributes="Bold"
-                FontSize="20"
-                HorizontalOptions="StartAndExpand"
-                Text="Hoefling Software"
-                VerticalOptions="CenterAndExpand" />
-            <Image
-                HorizontalOptions="End"
-                Source="company_logo"
-                VerticalOptions="CenterAndExpand" />
-        </StackLayout>
-    </NavigationPage.TitleView>
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Clicked="InfoButton_Clicked"
