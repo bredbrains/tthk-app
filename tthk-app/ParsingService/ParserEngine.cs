@@ -5,7 +5,7 @@ namespace tthk_app.ParsingService
 {
     public class ParserEngine
     {
-        public static List<List<string>> GetChanges()
+        public static List<List<string>> ParseChanges()
         {
             var url = "https://www.tthk.ee/tunniplaani-muudatused/";
             var web = new HtmlWeb();
