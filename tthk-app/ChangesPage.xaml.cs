@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows.Input;
+using tthk_app.ParsingService;
 using Xamarin.Forms.Xaml;
 
 namespace tthk_app
@@ -7,8 +7,6 @@ namespace tthk_app
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChangesPage
     {
-        private ICommand refreshCommand;
-
         public ChangesPage()
         {
             InitializeComponent();
@@ -16,7 +14,16 @@ namespace tthk_app
 
         private void Button_OnClicked(object sender, EventArgs e)
         {
-            // Parse button.
+            Parsed.Text = "";
+            foreach (var x in ParserEngine.GetChanges())
+            {
+                foreach (var j in x)
+                {
+                    Parsed.Text += j + " ";
+                }
+
+                Parsed.Text += "<br>";
+            }
         }
     }
 }
