@@ -9,34 +9,41 @@ namespace tthk_app.Models
 {
     public class Change
     {
+        List<string> stopList = new List<string>() {"Kuupäev", "Õpetaja", "Ruum", "Tund", "Õpetaja"};
+
+        public DayOfWeek DayOfWeek { get; }
+
+        public DateTime Date
+        {
+            get => this.Date;
+            set => this.Date = value;
+        }
+
+        string Group { get; set; }
+        string Lesson { get; set; }
+        string Teacher { get; set; }
+        string Room { get; set; }
+
         public Change()
         {
             DayOfWeek = Date.DayOfWeek;
-        }
-
-        public DayOfWeek DayOfWeek { get; }
-        public DateTime Date { get; set; }
-        public string Group { get; set; }
-        public string Lesson { get; set; }
-        public string Teacher { get; set; }
-        public string Room { get; set; }
-
-        public static List<Change> GetChangesList()
-        {
             List<Change> changesList = new List<Change>();
-            foreach (var changesRow in ParserEngine.ParseChanges())
+            var changeRows = ParserEngine.ParseChanges();
+            if (changeRows.Count > 0)
             {
-                Change change = new Change
+                foreach (var changesRow in changeRows)
                 {
-                    Date = DateTime.ParseExact(changesRow[1], "DD.MM.YYYY", CultureInfo.InvariantCulture),
-                    Group = changesRow[2],
-                    Lesson = changesRow[3],
-                    Teacher = changesRow[4],
-                    Room = changesRow[5]
-                };
+                    Date = DateTime.ParseExact(changesRow[1], "DD.MM.YYYY", CultureInfo.InvariantCulture);
+                    Group = changesRow[2];
+                    Lesson = changesRow[3];
+                    Teacher = changesRow[4];
+                    Room = changesRow[5];
+                    changesList.Add(this);
+                }
             }
-
-            return changesList;
+            else
+            {
+            }
         }
     }
 }

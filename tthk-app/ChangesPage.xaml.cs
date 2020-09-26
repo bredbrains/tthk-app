@@ -9,7 +9,7 @@ namespace tthk_app
         public ChangesPage()
         {
             InitializeComponent();
-            Change.GetChangesList();
+            Change change = new Change();
         }
     }
 }
