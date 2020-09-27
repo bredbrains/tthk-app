@@ -4,22 +4,18 @@
     Title="Tunniplaani muudatused"
     x:Class="tthk_app.ChangesPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:local="ChangesPageViewModel"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <ContentPage.Content>
-        <RefreshView IsRefreshing="False">
-            <ScrollView>
-                <StackLayout>
-                    <Button Clicked="Button_OnClicked" />
-                    <Label
-                        Text="Tekst tuleb siia"
-                        TextType="Html"
-                        x:Name="Parsed" />
-                    <Label
-                        HorizontalOptions="CenterAndExpand"
-                        Text="Siia tulevad tunniplaani muudatused."
-                        VerticalOptions="CenterAndExpand" />
-                </StackLayout>
-            </ScrollView>
-        </RefreshView>
+        <ScrollView>
+            <ListView
+                IsPullToRefreshEnabled="True"
+                ItemsSource=""
+                x:Name="ChangesList">
+                <ListView.ItemTemplate>
+                    <DataTemplate />
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

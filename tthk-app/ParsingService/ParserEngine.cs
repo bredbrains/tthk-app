@@ -5,9 +5,12 @@ namespace tthk_app.ParsingService
 {
     public class ParserEngine
     {
-        public static List<List<string>> GetChanges()
+        private static string cellText;
+
+        public static List<List<string>> ParseChanges()
         {
             var url = "https://www.tthk.ee/tunniplaani-muudatused/";
+            List<string> stopList = new List<string>() {"Kuupäev", "Rühm", "Tund", "Õpetaja", "Ruum"};
             var web = new HtmlWeb();
             var doc = web.Load(url);
             List<List<string>> changeRows = new List<List<string>>();
@@ -17,10 +20,17 @@ namespace tthk_app.ParsingService
                 List<string> changeList = new List<string>();
                 foreach (var td in tr.ChildNodes)
                 {
-                    changeList.Add(td.InnerText.Trim());
+                    cellText = td.InnerText.Trim();
+                    if (stopList.Contains(cellText))
+                    {
+                        changeList.Add(cellText);
+                    }
                 }
 
-                changeRows.Add(changeList);
+                if (changeList.Count != 0)
+                {
+                    changeRows.Add(changeList);
+                }
             }
 
             return changeRows;
