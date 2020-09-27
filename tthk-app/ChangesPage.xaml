@@ -8,7 +8,8 @@
     <!--  xmlns:local="ChangesPageViewModel"!  -->
     <ContentPage.Content>
         <ScrollView>
-            <ListView CachingStrategy="RecycleElement"
+            <ListView
+                CachingStrategy="RecycleElementAndDataTemplate"
                 GroupDisplayBinding="{Binding Name}"
                 HasUnevenRows="True"
                 IsGroupingEnabled="True"
@@ -22,6 +23,8 @@
                             <StackLayout BackgroundColor="#A22538" Orientation="Horizontal">
                                 <Label
                                     FontSize="Large"
+                                    HorizontalOptions="FillAndExpand"
+                                    Margin="10,2,0,0"
                                     Text="{Binding Name}"
                                     TextColor="White" />
                             </StackLayout>

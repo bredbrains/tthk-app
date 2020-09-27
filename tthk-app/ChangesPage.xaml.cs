@@ -21,7 +21,7 @@ namespace tthk_app
     {
         public ObservableCollection<ChangeGrouping<string, Change>> ChangeGroups { get; set; }
 
-        private void LoadChanges()
+        private async void LoadChanges()
         {
             var changes = ChangeCollection.GetChangeList();
             var groups = changes.GroupBy(c => c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
@@ -29,13 +29,17 @@ namespace tthk_app
             this.BindingContext = this;
         }
 
-        private void ChecksConnection()
+        private async Task ChecksConnection()
         {
             var current = Connectivity.NetworkAccess;
-            
+            ActivityIndicator activityIndicator = new ActivityIndicator
+                {IsRunning = true, Margin = 150, Color = Color.FromHex("#A22538")};
             if (current == NetworkAccess.Internet)
             {
-                LoadChanges();
+                Content = activityIndicator;
+                await Task.Run(() => { LoadChanges(); });
+                activityIndicator.IsRunning = false;
+                activityIndicator.IsVisible = false;
                 if (ChangesListView == null)
                 {
                     InitializeComponent();
@@ -64,7 +68,6 @@ namespace tthk_app
                 Content = noInternetLayout;
                 DependencyService.Get<IMessage>().ShortSnackbar("Teil puudub ühendus.");
             }
-            
         }
 
         private void CheckAgainButtonOnClicked(object sender, EventArgs e)
@@ -74,6 +77,7 @@ namespace tthk_app
 
         public ChangesPage()
         {
+            Title = "Saan muudatused...";
             ChecksConnection();
         }
 
