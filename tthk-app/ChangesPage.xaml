@@ -8,7 +8,7 @@
     <!--  xmlns:local="ChangesPageViewModel"!  -->
     <ContentPage.Content>
         <ScrollView>
-            <ListView
+            <ListView CachingStrategy="RecycleElement"
                 GroupDisplayBinding="{Binding Name}"
                 HasUnevenRows="True"
                 IsGroupingEnabled="True"
