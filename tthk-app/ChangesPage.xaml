@@ -4,17 +4,45 @@
     Title="Tunniplaani muudatused"
     x:Class="tthk_app.ChangesPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:local="ChangesPageViewModel"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <!--  xmlns:local="ChangesPageViewModel"!  -->
     <ContentPage.Content>
         <ScrollView>
             <ListView
+                GroupDisplayBinding="{Binding Name}"
+                HasUnevenRows="True"
+                IsGroupingEnabled="True"
                 IsPullToRefreshEnabled="True"
-                ItemsSource=""
-                x:Name="ChangesList">
+                ItemsSource="{Binding ChangeGroups}"
+                Refreshing="ChangesListView_OnRefreshing"
+                x:Name="ChangesListView">
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="35">
+                            <StackLayout BackgroundColor="#A22538" Orientation="Horizontal">
+                                <Label
+                                    FontSize="Large"
+                                    Text="{Binding Name}"
+                                    TextColor="White" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
                 <ListView.ItemTemplate>
-                    <DataTemplate />
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Margin="10">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label FontSize="18" Text="{Binding Group}" />
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Lesson}" />
+                                    <Label FontAttributes="Bold" Text="{Binding Teacher}" />
+                                    <Label Text="{Binding Room}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollView>

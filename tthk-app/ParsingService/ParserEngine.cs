@@ -10,7 +10,7 @@ namespace tthk_app.ParsingService
         public static List<List<string>> ParseChanges()
         {
             var url = "https://www.tthk.ee/tunniplaani-muudatused/";
-            List<string> stopList = new List<string>() {"Kuupäev", "Rühm", "Tund", "Õpetaja", "Ruum"};
+            List<string> stopList = new List<string>() {"Kuupäev", "Rühm", "Tund", "Õpetaja", "Ruum", "", "\n", "\t"};
             var web = new HtmlWeb();
             var doc = web.Load(url);
             List<List<string>> changeRows = new List<List<string>>();
