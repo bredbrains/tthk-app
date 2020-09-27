@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Fizzler;
-using Microsoft.FSharp.Linq.RuntimeHelpers;
-using Microsoft.Scripting.Utils;
 using tthk_app.Models;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using Button = Xamarin.Forms.Button;
@@ -21,9 +16,9 @@ namespace tthk_app
     {
         public ObservableCollection<ChangeGrouping<string, Change>> ChangeGroups { get; set; }
 
-        private async void LoadChanges()
+        private void LoadChanges(IEnumerable<Change> _changes)
         {
-            var changes = ChangeCollection.GetChangeList();
+            var changes = _changes;
             var groups = changes.GroupBy(c => c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
             ChangeGroups = new ObservableCollection<ChangeGrouping<string, Change>>(groups);
             this.BindingContext = this;
@@ -32,41 +27,47 @@ namespace tthk_app
         private async Task ChecksConnection()
         {
             var current = Connectivity.NetworkAccess;
-            ActivityIndicator activityIndicator = new ActivityIndicator
-                {IsRunning = true, Margin = 150, Color = Color.FromHex("#A22538")};
+
             if (current == NetworkAccess.Internet)
             {
-                Content = activityIndicator;
-                await Task.Run(() => { LoadChanges(); });
-                activityIndicator.IsRunning = false;
-                activityIndicator.IsVisible = false;
+                Title = "Saan muudatused...";
+                ActivityIndicator activityIndicator = new ActivityIndicator
+                {
+                    IsRunning = true, Margin = 175, Color = Color.FromHex("#A22538")
+                };
+                if (ChangesListView == null)
+                {
+                    Content = activityIndicator;
+                }
+
+                await Task.Run(() => { LoadChanges(ChangeCollection.GetChangeList()); });
+                if (ChangesListView == null)
+                {
+                    activityIndicator.IsRunning = false;
+                    activityIndicator.IsVisible = false;
+                    InitializeComponent();
+                }
+                else
+                {
+                    Title = "Tunniplaani muudatused";
+                    Content = ChangesListView;
+                    ChangesListView.IsRefreshing = false;
+                }
+
+                ChangesListView.RefreshControlColor = Color.FromHex("#A22538");
+            }
+            else
+            {
                 if (ChangesListView == null)
                 {
                     InitializeComponent();
                 }
-            }
-            else
-            {
-                Label noInternetText = new Label()
+                else
                 {
-                    Text = "Muudatused ei ole võimalik kuvada",
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    FontSize = 35,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                    VerticalTextAlignment = TextAlignment.Center
-                };
-                Button checkAgainButton = new Button()
-                {
-                    Text = "Proovi uuesti"
-                };
-                StackLayout noInternetLayout = new StackLayout()
-                {
-                    Children = {noInternetText, checkAgainButton}
-                };
-                checkAgainButton.Clicked += CheckAgainButtonOnClicked;
-                Content = noInternetLayout;
-                DependencyService.Get<IMessage>().ShortSnackbar("Teil puudub ühendus.");
+                    Content = ChangesListView;
+                }
+
+                DependencyService.Get<IMessage>().ShortAlert("Teil puudub ühendus.");
             }
         }
 
@@ -77,14 +78,13 @@ namespace tthk_app
 
         public ChangesPage()
         {
-            Title = "Saan muudatused...";
             ChecksConnection();
         }
 
         private void ChangesListView_OnRefreshing(object sender, EventArgs e)
         {
+            ChangesListView.IsRefreshing = true;
             ChecksConnection();
-            ChangesListView.IsRefreshing = false;
         }
     }
 }

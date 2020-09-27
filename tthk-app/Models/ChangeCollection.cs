@@ -7,10 +7,9 @@ namespace tthk_app.Models
 {
     public class ChangeCollection
     {
-        public static List<Change> GetChangeList()
+        public static IEnumerable<Change> GetChangeList()
         {
-            List<Change> changesList;
-            changesList = new List<Change>();
+            var changesList = new List<Change>();
             var changeRows = ParserEngine.ParseChanges();
             if (changeRows.Count > 0)
             {
@@ -36,7 +35,10 @@ namespace tthk_app.Models
                     changesList.Add(change);
                 }
 
-                return changesList;
+                IEnumerable<Change> changesEnum = changesList;
+                App.Current.Properties["changesCache"] = changesEnum;
+                App.Current.SavePropertiesAsync();
+                return changesEnum;
             }
 
             return null;

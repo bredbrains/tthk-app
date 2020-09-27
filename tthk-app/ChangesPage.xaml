@@ -7,47 +7,48 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <!--  xmlns:local="ChangesPageViewModel"!  -->
     <ContentPage.Content>
-        <ScrollView>
-            <ListView
-                CachingStrategy="RecycleElementAndDataTemplate"
-                GroupDisplayBinding="{Binding Name}"
-                HasUnevenRows="True"
-                IsGroupingEnabled="True"
-                IsPullToRefreshEnabled="True"
-                ItemsSource="{Binding ChangeGroups}"
-                Refreshing="ChangesListView_OnRefreshing"
-                x:Name="ChangesListView">
-                <ListView.GroupHeaderTemplate>
-                    <DataTemplate>
-                        <ViewCell Height="35">
-                            <StackLayout BackgroundColor="#A22538" Orientation="Horizontal">
+        <ListView
+            CachingStrategy="RecycleElementAndDataTemplate"
+            GroupDisplayBinding="{Binding Name}"
+            HasUnevenRows="True"
+            IsGroupingEnabled="True"
+            IsPullToRefreshEnabled="True"
+            ItemsSource="{Binding ChangeGroups}"
+            Refreshing="ChangesListView_OnRefreshing"
+            x:Name="ChangesListView">
+            <ListView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <ViewCell Height="35">
+                        <StackLayout BackgroundColor="#A22538" Orientation="Horizontal">
+                            <Label
+                                FontSize="Large"
+                                HorizontalOptions="FillAndExpand"
+                                Margin="10,2,0,0"
+                                Text="{Binding Name}"
+                                TextColor="White" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.GroupHeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Margin="10">
+                            <StackLayout Orientation="Horizontal">
+                                <Label FontSize="18" Text="{Binding Group}" />
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Margin="0,0,15,0" Text="{Binding Lesson}" />
                                 <Label
-                                    FontSize="Large"
-                                    HorizontalOptions="FillAndExpand"
-                                    Margin="10,2,0,0"
-                                    Text="{Binding Name}"
-                                    TextColor="White" />
+                                    FontAttributes="Bold"
+                                    Margin="0,0,10,0"
+                                    Text="{Binding Teacher}" />
+                                <Label Text="{Binding Room}" />
                             </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.GroupHeaderTemplate>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Margin="10">
-                                <StackLayout Orientation="Horizontal">
-                                    <Label FontSize="18" Text="{Binding Group}" />
-                                </StackLayout>
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Lesson}" />
-                                    <Label FontAttributes="Bold" Text="{Binding Teacher}" />
-                                    <Label Text="{Binding Room}" />
-                                </StackLayout>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </ScrollView>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </ContentPage.Content>
 </ContentPage>
