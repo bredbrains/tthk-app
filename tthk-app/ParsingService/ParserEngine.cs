@@ -5,7 +5,7 @@ namespace tthk_app.ParsingService
 {
     public class ParserEngine
     {
-        private static string cellText;
+        private static string _cellText;
 
         public static List<List<string>> ParseChanges()
         {
@@ -20,10 +20,10 @@ namespace tthk_app.ParsingService
                 List<string> changeList = new List<string>();
                 foreach (var td in tr.ChildNodes)
                 {
-                    cellText = td.InnerText.Trim();
-                    if (!stopList.Contains(cellText))
+                    _cellText = td.InnerText.Trim();
+                    if (!stopList.Contains(_cellText))
                     {
-                        changeList.Add(cellText);
+                        changeList.Add(_cellText);
                     }
                 }
 
