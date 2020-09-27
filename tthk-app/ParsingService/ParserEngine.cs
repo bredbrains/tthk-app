@@ -21,7 +21,7 @@ namespace tthk_app.ParsingService
                 foreach (var td in tr.ChildNodes)
                 {
                     cellText = td.InnerText.Trim();
-                    if (stopList.Contains(cellText))
+                    if (!stopList.Contains(cellText))
                     {
                         changeList.Add(cellText);
                     }
