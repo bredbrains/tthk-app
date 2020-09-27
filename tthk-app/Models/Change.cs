@@ -9,31 +9,26 @@ namespace tthk_app.Models
 {
     public class Change
     {
+        private List<Change> changesList;
         List<string> stopList = new List<string>() {"Kuupäev", "Õpetaja", "Ruum", "Tund", "Õpetaja"};
 
-        public DayOfWeek DayOfWeek { get; }
-
-        public DateTime Date
-        {
-            get => this.Date;
-            set => this.Date = value;
-        }
-
-        string Group { get; set; }
-        string Lesson { get; set; }
-        string Teacher { get; set; }
-        string Room { get; set; }
+        internal DayOfWeek DayOfWeek;
+        internal DateTime Date;
+        internal string Group;
+        internal string Lesson;
+        internal string Teacher;
+        internal string Room;
 
         public Change()
         {
-            DayOfWeek = Date.DayOfWeek;
-            List<Change> changesList = new List<Change>();
+            changesList = new List<Change>();
             var changeRows = ParserEngine.ParseChanges();
             if (changeRows.Count > 0)
             {
                 foreach (var changesRow in changeRows)
                 {
                     Date = DateTime.ParseExact(changesRow[1], "DD.MM.YYYY", CultureInfo.InvariantCulture);
+                    DayOfWeek = Date.DayOfWeek;
                     Group = changesRow[2];
                     Lesson = changesRow[3];
                     Teacher = changesRow[4];
@@ -41,9 +36,16 @@ namespace tthk_app.Models
                     changesList.Add(this);
                 }
             }
-            else
+        }
+
+        internal List<Change> GetChangeList()
+        {
+            if (changesList.Count > 0)
             {
+                return changesList;
             }
+
+            return null;
         }
     }
 }
