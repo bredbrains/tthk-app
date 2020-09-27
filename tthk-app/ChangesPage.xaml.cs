@@ -32,10 +32,14 @@ namespace tthk_app
         private void ChecksConnection()
         {
             var current = Connectivity.NetworkAccess;
+            
             if (current == NetworkAccess.Internet)
             {
                 LoadChanges();
-                InitializeComponent();
+                if (ChangesListView == null)
+                {
+                    InitializeComponent();
+                }
             }
             else
             {
@@ -60,6 +64,7 @@ namespace tthk_app
                 Content = noInternetLayout;
                 DependencyService.Get<IMessage>().ShortSnackbar("Teil puudub ühendus.");
             }
+            
         }
 
         private void CheckAgainButtonOnClicked(object sender, EventArgs e)
@@ -75,6 +80,7 @@ namespace tthk_app
         private void ChangesListView_OnRefreshing(object sender, EventArgs e)
         {
             ChecksConnection();
+            ChangesListView.IsRefreshing = false;
         }
     }
 }
