@@ -9,6 +9,7 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using Button = Xamarin.Forms.Button;
 
+
 namespace tthk_app
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -27,7 +28,7 @@ namespace tthk_app
         private async Task ChecksConnection()
         {
             var current = Connectivity.NetworkAccess;
-
+            
             if (current == NetworkAccess.Internet)
             {
                 Title = "Saan muudatused...";
@@ -53,7 +54,7 @@ namespace tthk_app
                     Content = ChangesListView;
                     ChangesListView.IsRefreshing = false;
                 }
-
+                
                 ChangesListView.RefreshControlColor = Color.FromHex("#A22538");
             }
             else
