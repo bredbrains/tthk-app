@@ -21,8 +21,8 @@
         <Tab Icon="calendarx.png" Title="Muudatused">
             <ShellContent ContentTemplate="{DataTemplate pages:ChangesPage}" />
         </Tab>
-        <Tab Icon="calendar.png" Title="Tunniplaan">
-            <ShellContent ContentTemplate="{DataTemplate pages:TimetablePage}" />
+        <Tab Icon="calendar.png" Title="Õpilaspilet">
+            <ShellContent ContentTemplate="{DataTemplate pages:CardPage}" />
         </Tab>
     </TabBar>
 </Shell>
