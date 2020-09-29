@@ -21,7 +21,7 @@
         <Tab Icon="calendarx.png" Title="Muudatused">
             <ShellContent ContentTemplate="{DataTemplate pages:ChangesPage}" />
         </Tab>
-        <Tab Icon="calendar.png" Title="Õpilaspilet">
+        <Tab Icon="studentscard.png" Title="Õpilaspilet">
             <ShellContent ContentTemplate="{DataTemplate pages:CardPage}" />
         </Tab>
     </TabBar>
