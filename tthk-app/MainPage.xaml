@@ -41,6 +41,10 @@
                 <x:String>TITpv20</x:String>
             </Picker.Items>
         </Picker>
+        
+        <Button x:Name="telegramButton"
+                ImageSource="telegram.png"
+                Clicked="TelegramButtonClick"/>
     </StackLayout>
 
 </ContentPage>

@@ -33,5 +33,15 @@ namespace tthk_app
             Preferences.Set("name", value);
             YourGroup.Text = "Teie rühm: " + GroupPicker.Items[GroupPicker.SelectedIndex];
         }
+
+        private async void OpenTelegramChannel()
+        {
+            await Browser.OpenAsync("https://t.me/toostusharidus");
+        }
+
+        private void TelegramButtonClick(object sender, EventArgs e)
+        {
+            OpenTelegramChannel();
+        }
     }
 }
