@@ -12,7 +12,7 @@ using Button = Xamarin.Forms.Button;
 namespace tthk_app
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ChangesPage
+    public partial class ChangesPage : ContentPage
     {
         public ObservableCollection<ChangeGrouping<string, Change>> ChangeGroups { get; set; }
 
