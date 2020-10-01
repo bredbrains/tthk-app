@@ -24,6 +24,8 @@
       <PackageReference Include="FSharp.Data" Version="3.3.3" />
       <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
       <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+      <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
+      <PackageReference Include="python" Version="3.9.0-rc2" />
       <PackageReference Include="Mono.Posix-4.5" Version="4.5.0" />
       <PackageReference Include="Mono.Posix.NETStandard" Version="5.20.1-preview" />
       <PackageReference Include="python" Version="3.9.0-rc2" />
