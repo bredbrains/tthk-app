@@ -16,7 +16,7 @@
     </Shell.Resources>
     <TabBar Style="{StaticResource BaseStyle}">
         <Tab Icon="home.png" Title="Avaleht">
-            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}"/>
         </Tab>
         <Tab Icon="calendarx.png" Title="Muudatused">
             <ShellContent ContentTemplate="{DataTemplate pages:ChangesPage}" />

@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <ContentPage
-    IconImageSource="tthklogo.png"
-    Title="Tallinna Tööstushariduskeskus"
     mc:Ignorable="d"
     x:Class="tthk_app.MainPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
@@ -10,13 +8,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Shell.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Image Source="tthklogo.png"
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"
+                   Margin="10"/>
+            <Label Text="Tallinna Tööstushariduskeskus"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalTextAlignment="Center"/>
+        </StackLayout>
+    </Shell.TitleView>
+
     <ContentPage.ToolbarItems>
-        <ToolbarItem
-            Clicked="InfoButton_Clicked"
-            IconImageSource="info.png"
-            x:Name="InfoButton" />
+        <ToolbarItem IconImageSource="info.png"
+                     Clicked="InfoButton_Clicked"/>
     </ContentPage.ToolbarItems>
-    
     <StackLayout>
         <Label x:Name="YourGroup"
                BackgroundColor="#A22538"
@@ -41,10 +50,8 @@
                 <x:String>TITpv20</x:String>
             </Picker.Items>
         </Picker>
-        
-        <Button x:Name="telegramButton"
-                ImageSource="telegram.png"
-                Clicked="TelegramButtonClick"/>
+
+        <ImageButton Source="telegram.png" HeightRequest="50" Clicked="TelegramButtonClick"/>
     </StackLayout>
 
 </ContentPage>

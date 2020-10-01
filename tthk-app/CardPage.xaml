@@ -4,9 +4,19 @@
     x:Class="tthk_app.CardPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Shell.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Õpilaspilet"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalTextAlignment="Center"/>
+        </StackLayout>
+    </Shell.TitleView>
     <ContentPage.Content>
         <StackLayout>
             <Label
+                x:Name="lbl"
                 HorizontalOptions="CenterAndExpand"
                 Text="Hello, world!"
                 VerticalOptions="CenterAndExpand" />

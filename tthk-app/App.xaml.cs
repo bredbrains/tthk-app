@@ -1,4 +1,8 @@
-﻿namespace tthk_app
+﻿using Xamarin.Forms;
+using Plugin.NFC;
+
+[assembly: ExportFont("SFProFont.ttf", Alias = "SFProFont")]
+namespace tthk_app
 {
     public partial class App
     {

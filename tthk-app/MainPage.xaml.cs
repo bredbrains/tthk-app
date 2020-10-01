@@ -10,6 +10,7 @@ namespace tthk_app
 
     public partial class MainPage
     {
+        [assembly: ExportFont("Samantha.ttf", Alias = "Samantha")]
         public MainPage()
         {
             InitializeComponent();
