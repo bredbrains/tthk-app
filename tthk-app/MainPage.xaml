@@ -32,7 +32,13 @@
                 <x:String>TARpv18</x:String>
                 <x:String>TARpv19</x:String>
                 <x:String>TARpv20</x:String>
-                <x:String>TARpe18</x:String>
+                <x:String>LOGITpv18</x:String>
+                <x:String>LOGITpv19</x:String>
+                <x:String>LOGITpv20</x:String>
+                <x:String>MEHpv19</x:String>
+                <x:String>MEHpv20</x:String>
+                <x:String>TITpv19</x:String>
+                <x:String>TITpv20</x:String>
             </Picker.Items>
         </Picker>
     </StackLayout>

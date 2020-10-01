@@ -31,7 +31,7 @@ namespace tthk_app
         {
             string value = GroupPicker.Items[GroupPicker.SelectedIndex];
             Preferences.Set("name", value);
-            YourGroup.Text = "Teie grupp: " + GroupPicker.Items[GroupPicker.SelectedIndex];
+            YourGroup.Text = "Teie rühm: " + GroupPicker.Items[GroupPicker.SelectedIndex];
         }
     }
 }

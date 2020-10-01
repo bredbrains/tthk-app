@@ -1,16 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Fizzler;
 using tthk_app.ParsingService;
+using Xamarin.Essentials;
 
 namespace tthk_app.Models
 {
     public class ChangeCollection
     {
-        public static IEnumerable<Change> GetChangeList()
+        public static IEnumerable<Change> GetChangeList(bool cache)
         {
             var changesList = new List<Change>();
-            var changeRows = ParserEngine.ParseChanges();
+            List<List<string>> changeRows;
+            if (cache)
+            {
+                 changeRows = ParserEngine.ParseChangesFromCache(Preferences.Get("html", "none"));
+            }
+            else
+            {
+                changeRows = ParserEngine.ParseChanges();
+            }
             if (changeRows.Count > 0)
             {
                 foreach (var changesRow in changeRows)
@@ -34,13 +44,9 @@ namespace tthk_app.Models
 
                     changesList.Add(change);
                 }
-
                 IEnumerable<Change> changesEnum = changesList;
-                App.Current.Properties["changesCache"] = changesEnum;
-                App.Current.SavePropertiesAsync();
                 return changesEnum;
             }
-
             return null;
         }
     }
