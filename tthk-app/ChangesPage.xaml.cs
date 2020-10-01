@@ -33,25 +33,45 @@ namespace tthk_app
                 Title = "Saan muudatused...";
                 ActivityIndicator activityIndicator = new ActivityIndicator
                 {
-                    IsRunning = true, Margin = 175, Color = Color.FromHex("#A22538")
+                    IsRunning = true,
+                    Margin = 175,
+                    Color = Color.FromHex("#A22538")
                 };
-                if (ChangesListView == null)
-                {
-                    Content = activityIndicator;
-                }
 
-                await Task.Run(() => { LoadChanges(ChangeCollection.GetChangeList()); });
                 if (ChangesListView == null)
                 {
-                    activityIndicator.IsRunning = false;
-                    activityIndicator.IsVisible = false;
-                    InitializeComponent();
+                    if (ChangeCollection.GetChangeList() != null)
+                    {
+                        await Task.Run(() => { LoadChanges(ChangeCollection.GetChangeList()); });
+
+                        activityIndicator.IsRunning = false;
+                        activityIndicator.IsVisible = false;
+                        InitializeComponent();
+
+                        Title = "Tunniplaani muudatused";
+                        Content = ChangesListView;
+                        ChangesListView.IsRefreshing = false;
+                    }
+                    else
+                    {
+                        StackLayout stack = new StackLayout();
+
+                        Label text = new Label();
+                        text.Text = "Muudatused puuduvad";
+
+                        Button btn = new Button();
+                        btn.Text = "Refresh";
+
+                        stack.Children.Add(text);
+                        stack.Children.Add(btn);
+                        Content = stack;
+                    }
                 }
                 else
                 {
-                    Title = "Tunniplaani muudatused";
-                    Content = ChangesListView;
-                    ChangesListView.IsRefreshing = false;
+                    activityIndicator.IsRunning = false;
+                    activityIndicator.IsVisible = false;
+                    DependencyService.Get<IMessage>().ShortAlert("Tunniplaani muutusteta.");
                 }
 
                 ChangesListView.RefreshControlColor = Color.FromHex("#A22538");
