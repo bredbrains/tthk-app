@@ -16,12 +16,25 @@
             IconImageSource="info.png"
             x:Name="InfoButton" />
     </ContentPage.ToolbarItems>
+    
     <StackLayout>
-        <!--  Place new controls here  -->
-        <Label
-            HorizontalOptions="CenterAndExpand"
-            Text="Welcome to Xamarin.Forms!"
-            VerticalOptions="CenterAndExpand" />
+        <Label x:Name="YourGroup"
+               BackgroundColor="#A22538"
+               TextColor="White"
+               FontSize="Large"
+               Padding="5,5,0,5"
+               HorizontalOptions="FillAndExpand"
+        />
+        <Picker x:Name="GroupPicker"
+                SelectedIndexChanged="Picker_OnSelectedIndexChanged"
+                VerticalOptions="Center">
+            <Picker.Items>
+                <x:String>TARpv18</x:String>
+                <x:String>TARpv19</x:String>
+                <x:String>TARpv20</x:String>
+                <x:String>TARpe18</x:String>
+            </Picker.Items>
+        </Picker>
     </StackLayout>
 
 </ContentPage>

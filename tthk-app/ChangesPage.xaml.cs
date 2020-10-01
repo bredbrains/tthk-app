@@ -7,7 +7,6 @@ using tthk_app.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
-using Button = Xamarin.Forms.Button;
 
 namespace tthk_app
 {
