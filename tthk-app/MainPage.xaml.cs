@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace tthk_app
 {
@@ -10,7 +11,6 @@ namespace tthk_app
 
     public partial class MainPage
     {
-        [assembly: ExportFont("Samantha.ttf", Alias = "Samantha")]
         public MainPage()
         {
             InitializeComponent();
