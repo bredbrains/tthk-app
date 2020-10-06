@@ -18,6 +18,9 @@ namespace tthk_app
 
         protected override void OnAppearing()
         {
+            int TodayMonthNumber = DateTime.Now.Month;
+            int TodayDayNumber = DateTime.Now.Day;
+            TodayDateLabel.Text = $"{TodayDayNumber}.{TodayMonthNumber}";
             string name = Preferences.Get("name", "none");
             YourGroup.Text = "Teie grupp: " + name;
             base.OnAppearing();

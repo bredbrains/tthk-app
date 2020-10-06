@@ -28,6 +28,14 @@
         <ToolbarItem Clicked="InfoButton_Clicked" IconImageSource="settings.png" />
     </ContentPage.ToolbarItems>
     <StackLayout>
+        <StackLayout Margin="10,10,0,0" Orientation="Horizontal">
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="Tere, Nikolas!"
+                x:Name="HelloToUser" />
+            <Label FontSize="18" x:Name="TodayDateLabel" />
+        </StackLayout>
         <Label
             BackgroundColor="#A22538"
             FontSize="Large"
