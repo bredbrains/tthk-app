@@ -17,6 +17,7 @@ namespace tthk_app
             InitializeComponent();
             string name = Preferences.Get("name", "none");
             string group = Preferences.Get("group", "none");
+            bool notifications = Preferences.Get("changesNotifications", false);
             if (name != "none")
             {
                 UserName.Text = name;
@@ -33,6 +34,11 @@ namespace tthk_app
             else
             {
                 UserGroup.Text = null;
+            }
+            
+            if (notifications)
+            {
+                ChangesNotifcations.On = true;
             }
         }
 
@@ -81,6 +87,18 @@ namespace tthk_app
             else
             {
                 DependencyService.Get<IMessage>().ShortAlert("Rühm sisestatud valesti.");
+            }
+        }
+
+        private void ChangesNotifcations_OnChanged(object sender, ToggledEventArgs e)
+        {
+            if (ChangesNotifcations.On == true)
+            {
+                Preferences.Set("changesNotifications", true);
+            }
+            else
+            {
+                Preferences.Set("changesNotifications", false);
             }
         }
     }

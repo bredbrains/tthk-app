@@ -8,7 +8,10 @@
         <TableView>
             <TableRoot>
                 <TableSection Title="Muudatused">
-                    <SwitchCell Text="Teated muudatuste kohta" />
+                    <SwitchCell
+                        OnChanged="ChangesNotifcations_OnChanged"
+                        Text="Teated muudatuste kohta"
+                        x:Name="ChangesNotifcations" />
                 </TableSection>
                 <TableSection Title="Andmed">
                     <EntryCell
