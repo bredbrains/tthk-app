@@ -11,12 +11,20 @@
                     <SwitchCell Text="Teated muudatuste kohta" />
                 </TableSection>
                 <TableSection Title="Andmed">
-                    <EntryCell Label="Nimi" Placeholder="Lev" />
-                    <EntryCell Label="Rühm" Placeholder="TARpv19" />
+                    <EntryCell
+                        Completed="UserName_OnCompleted"
+                        Label="Nimi"
+                        Placeholder="John"
+                        x:Name="UserName" />
+                    <EntryCell
+                        Completed="UserGroup_OnCompleted"
+                        Label="Rühm"
+                        Placeholder="LOGApv19-1"
+                        x:Name="UserGroup" />
                 </TableSection>
                 <TableSection Title="Muud">
                     <ViewCell Tapped="AuthorsCellTapped">
-                        <StackLayout Margin="10,10,0,0">
+                        <StackLayout Margin="10,10,0,0" Orientation="Horizontal">
                             <Label Text="Autorid" />
                         </StackLayout>
                     </ViewCell>
