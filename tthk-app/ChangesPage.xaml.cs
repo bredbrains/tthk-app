@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using tthk_app.Models;
@@ -53,7 +54,6 @@ namespace tthk_app
                 else
                 {
                     Title = "Tunniplaani muudatused";
-                    Content = ChangesListView;
                     ChangesListView.IsRefreshing = false;
                 }
 
