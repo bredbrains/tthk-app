@@ -23,7 +23,7 @@ namespace tthk_app
         private void LoadChanges(IEnumerable<Change> _changes)
         {
             var changes = _changes;
-            var groups = changes.GroupBy(c => estDayOfWeeks[(int)c.DayOfWeek] + ", " + c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
+            var groups = changes.GroupBy(c => estDayOfWeeks[(int)c.DayOfWeek-1] + ", " + c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
             ChangeGroups = new ObservableCollection<ChangeGrouping<string, Change>>(groups);
             this.BindingContext = this;
         }
@@ -50,6 +50,7 @@ namespace tthk_app
                     activityIndicator.IsRunning = false;
                     activityIndicator.IsVisible = false;
                     InitializeComponent();
+                    ChangesListView.IsRefreshing = false;
                 }
                 else
                 {
