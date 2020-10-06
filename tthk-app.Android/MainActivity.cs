@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
@@ -12,7 +13,7 @@ using Android.Nfc;
 namespace tthk_app.Droid
 {
     [Activity(Label = "THK", Icon = "@mipmap/tthklogoapp", Theme = "@style/MainTheme", MainLauncher = true,
-        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
     [IntentFilter(new[] { NfcAdapter.ActionNdefDiscovered }, Categories = new[] { Intent.CategoryDefault }, DataMimeType = "application/com.bredbrains.tthk_app")]
     public class MainActivity : FormsAppCompatActivity
     {
@@ -28,16 +29,24 @@ namespace tthk_app.Droid
             Platform.Init(this, savedInstanceState);
             Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+            
+            CreateNotificationFromIntent(Intent);
         }
 
-        protected override void OnResume()
+        void CreateNotificationFromIntent(Intent intent)
         {
-            base.OnResume();
+            if (intent?.Extras != null)
+            {
+                string title = intent.Extras.GetString(AndroidNotificationManager.TitleKey);
+                string message = intent.Extras.GetString(AndroidNotificationManager.MessageKey);
+                DependencyService.Get<INotificationManager>().ReceiveNotification(title, message);
+            }
         }
 
         protected override void OnNewIntent(Intent intent)
         {
             base.OnNewIntent(intent);
+            CreateNotificationFromIntent(intent);
 
             // Plugin NFC: Tag Discovery Interception
             CrossNFC.OnNewIntent(intent);

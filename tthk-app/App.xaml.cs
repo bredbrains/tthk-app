@@ -1,8 +1,4 @@
-﻿using Xamarin.Forms;
-using Plugin.NFC;
-
-[assembly: ExportFont("SFProFont.ttf", Alias = "SFProFont")]
-namespace tthk_app
+﻿namespace tthk_app
 {
     public partial class App
     {
@@ -24,5 +20,6 @@ namespace tthk_app
         protected override void OnResume()
         {
         }
+        
     }
 }

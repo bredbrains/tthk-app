@@ -11,10 +11,26 @@ namespace tthk_app
 
     public partial class MainPage
     {
+        INotificationManager notificationManager;
+        private int notificationNumber = 0;
         string[] estMonths = new string[] {"jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"};
         public MainPage()
         {
             InitializeComponent();
+            notificationManager = DependencyService.Get<INotificationManager>();
+            GetNotification();
+            notificationManager.NotificationReceived += (sender, eventArgs) =>
+            {
+                var evtData = (NotificationEventArgs)eventArgs;
+            };
+        }
+        
+        void GetNotification()
+        {
+            notificationNumber++;
+            string title = $"Tunniplaani muudatused";
+            string message = $"Teil puuduvad muudatused.";
+            notificationManager.ScheduleNotification(title, message);
         }
 
         protected override void OnAppearing()
