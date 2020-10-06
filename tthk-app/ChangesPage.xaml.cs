@@ -14,12 +14,15 @@ namespace tthk_app
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChangesPage : ContentPage
     {
+        // TODO: Add changes caching.
+        
+        char[] estDayOfWeeks = new char[7] {'E', 'T', 'K', 'N', 'R', 'L', 'P'};
         public ObservableCollection<ChangeGrouping<string, Change>> ChangeGroups { get; set; }
 
         private void LoadChanges(IEnumerable<Change> _changes)
         {
             var changes = _changes;
-            var groups = changes.GroupBy(c => c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
+            var groups = changes.GroupBy(c => estDayOfWeeks[(int)c.DayOfWeek] + ", " + c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
             ChangeGroups = new ObservableCollection<ChangeGrouping<string, Change>>(groups);
             this.BindingContext = this;
         }
@@ -33,99 +36,38 @@ namespace tthk_app
                 Title = "Saan muudatused...";
                 ActivityIndicator activityIndicator = new ActivityIndicator
                 {
-                    IsRunning = true,
-                    Margin = 175,
-                    Color = Color.FromHex("#A22538")
+                    IsRunning = true, Margin = 175, Color = Color.FromHex("#A22538")
                 };
-
                 if (ChangesListView == null)
                 {
-                    if (ChangeCollection.GetChangeList(false) != null)
-                    {
-                        await Task.Run(() => { LoadChanges(ChangeCollection.GetChangeList(false)); });
-
-                        activityIndicator.IsRunning = false;
-                        activityIndicator.IsVisible = false;
-                        InitializeComponent();
-
-                        Title = "Tunniplaani muudatused";
-                        Content = ChangesListView;
-                        ChangesListView.IsRefreshing = false;
-                    }
-                    else
-                    {
-                        StackLayout stack = new StackLayout();
-
-                        Label text = new Label();
-                        text.Text = "Muudatused puuduvad";
-
-                        Button btn = new Button();
-                        btn.Text = "Proovi";
-
-                        stack.Children.Add(text);
-                        stack.Children.Add(btn);
-                        Content = stack;
-                    }
+                    Content = activityIndicator;
                 }
-                else
+
+                await Task.Run(() => { LoadChanges(ChangeCollection.GetChangeList()); });
+                if (ChangesListView == null)
                 {
                     activityIndicator.IsRunning = false;
                     activityIndicator.IsVisible = false;
-                    DependencyService.Get<IMessage>().ShortAlert("Tunniplaani muudatused puuduvad.");
+                    InitializeComponent();
+                }
+                else
+                {
+                    Title = "Tunniplaani muudatused";
+                    Content = ChangesListView;
+                    ChangesListView.IsRefreshing = false;
                 }
 
                 ChangesListView.RefreshControlColor = Color.FromHex("#A22538");
             }
             else
             {
-                ActivityIndicator activityIndicator = new ActivityIndicator
+                if (ChangesListView == null)
                 {
-                    IsRunning = true,
-                    Margin = 175,
-                    Color = Color.FromHex("#A22538")
-                };
-                if (Preferences.ContainsKey("html"))
-                {
-                    if (ChangeCollection.GetChangeList(true) != null)
-                    {
-                        await Task.Run(() => { LoadChanges(ChangeCollection.GetChangeList(true)); });
-
-                        activityIndicator.IsRunning = false;
-                        activityIndicator.IsVisible = false;
-                        InitializeComponent();
-
-                        Title = "Tunniplaani muudatused";
-                        Content = ChangesListView;
-                        ChangesListView.IsRefreshing = false;
-                    }
-                    else
-                    {
-                        StackLayout stack = new StackLayout();
-
-                        Label text = new Label();
-                        text.Text = "Muudatused puuduvad";
-
-                        Button btn = new Button();
-                        btn.Text = "Proovi";
-
-                        stack.Children.Add(text);
-                        stack.Children.Add(btn);
-                        Content = stack;
-                    }
+                    InitializeComponent();
                 }
                 else
                 {
-                    StackLayout stack = new StackLayout();
-
-                    Label text = new Label();
-                    text.Text = "Muudatused pole võimalik saada.";
-
-                    Button btn = new Button();
-                    btn.Text = "Proovi";
-
-                    stack.Children.Add(text);
-                    stack.Children.Add(btn);
-                    Content = stack;
+                    Content = ChangesListView;
                 }
 
                 DependencyService.Get<IMessage>().ShortAlert("Teil puudub ühendus.");

@@ -25,7 +25,7 @@ namespace tthk_app
 
         private void InfoButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new InfoPage());
+            Navigation.PushAsync(new SettingsPage());
         }
         
         private void Picker_OnSelectedIndexChanged(object sender, EventArgs e)

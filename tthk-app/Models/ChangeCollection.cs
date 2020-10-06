@@ -9,18 +9,11 @@ namespace tthk_app.Models
 {
     public class ChangeCollection
     {
-        public static IEnumerable<Change> GetChangeList(bool cache)
+        public static IEnumerable<Change> GetChangeList()
         {
             var changesList = new List<Change>();
             List<List<string>> changeRows;
-            if (cache)
-            {
-                 changeRows = ParserEngine.ParseChangesFromCache(Preferences.Get("html", "none"));
-            }
-            else
-            {
-                changeRows = ParserEngine.ParseChanges();
-            }
+            changeRows = ParserEngine.ParseChanges();
             if (changeRows.Count > 0)
             {
                 foreach (var changesRow in changeRows)

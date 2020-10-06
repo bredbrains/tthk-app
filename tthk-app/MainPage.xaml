@@ -10,33 +10,35 @@
 
     <Shell.TitleView>
         <StackLayout Orientation="Horizontal">
-            <Image Source="tthklogo.png"
-                   HorizontalOptions="Start"
-                   VerticalOptions="FillAndExpand"
-                   Margin="10"/>
-            <Label Text="Tallinna Tööstushariduskeskus"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="White"
-                   VerticalTextAlignment="Center"/>
+            <Image
+                HorizontalOptions="Start"
+                Margin="10"
+                Source="tthklogo.png"
+                VerticalOptions="FillAndExpand" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="Tallinna Tööstushariduskeskus"
+                TextColor="White"
+                VerticalTextAlignment="Center" />
         </StackLayout>
     </Shell.TitleView>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="info.png"
-                     Clicked="InfoButton_Clicked"/>
+        <ToolbarItem Clicked="InfoButton_Clicked" IconImageSource="settings.png" />
     </ContentPage.ToolbarItems>
     <StackLayout>
-        <Label x:Name="YourGroup"
-               BackgroundColor="#A22538"
-               TextColor="White"
-               FontSize="Large"
-               Padding="5,5,0,5"
-               HorizontalOptions="FillAndExpand"
-        />
-        <Picker x:Name="GroupPicker"
-                SelectedIndexChanged="Picker_OnSelectedIndexChanged"
-                VerticalOptions="Center">
+        <Label
+            BackgroundColor="#A22538"
+            FontSize="Large"
+            HorizontalOptions="FillAndExpand"
+            Padding="5,5,0,5"
+            TextColor="White"
+            x:Name="YourGroup" />
+        <Picker
+            SelectedIndexChanged="Picker_OnSelectedIndexChanged"
+            VerticalOptions="Center"
+            x:Name="GroupPicker">
             <Picker.Items>
                 <x:String>TARpv18</x:String>
                 <x:String>TARpv19</x:String>
@@ -51,7 +53,10 @@
             </Picker.Items>
         </Picker>
 
-        <ImageButton Source="telegram.png" HeightRequest="50" Clicked="TelegramButtonClick"/>
+        <ImageButton
+            Clicked="TelegramButtonClick"
+            HeightRequest="50"
+            Source="telegram.png" />
     </StackLayout>
 
 </ContentPage>

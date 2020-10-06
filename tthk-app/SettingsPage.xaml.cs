@@ -16,5 +16,10 @@ namespace tthk_app
         {
             InitializeComponent();
         }
+
+        private void AuthorsCellTapped(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new InfoPage());
+        }
     }
 }

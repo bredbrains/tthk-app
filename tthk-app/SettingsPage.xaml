@@ -5,11 +5,23 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <ContentPage.Content>
-        <StackLayout>
-            <Label
-                HorizontalOptions="CenterAndExpand"
-                Text="Hello, world!"
-                VerticalOptions="CenterAndExpand" />
-        </StackLayout>
+        <TableView>
+            <TableRoot>
+                <TableSection Title="Muudatused">
+                    <SwitchCell Text="Teated muudatuste kohta" />
+                </TableSection>
+                <TableSection Title="Andmed">
+                    <EntryCell Label="Nimi" Placeholder="Lev" />
+                    <EntryCell Label="Rühm" Placeholder="TARpv19" />
+                </TableSection>
+                <TableSection Title="Muud">
+                    <ViewCell Tapped="AuthorsCellTapped">
+                        <StackLayout Margin="10,10,0,0">
+                            <Label Text="Autorid" />
+                        </StackLayout>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
     </ContentPage.Content>
 </ContentPage>

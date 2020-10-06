@@ -9,7 +9,6 @@ namespace tthk_app
         public InfoPage()
         {
             InitializeComponent();
-            Shell.SetTabBarIsVisible(this, false);
         }
     }
 }
