@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <ContentPage
-    IconImageSource="tthklogo.png"
-    Title="Tallinna Tööstushariduskeskus"
     mc:Ignorable="d"
     x:Class="tthk_app.MainPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
@@ -10,36 +8,50 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <NavigationPage.TitleView>
+    <Shell.TitleView>
         <StackLayout Orientation="Horizontal">
-            <Image
-                HorizontalOptions="Start"
-                Source="company_logo"
-                VerticalOptions="CenterAndExpand" />
-            <Label
-                FontAttributes="Bold"
-                FontSize="20"
-                HorizontalOptions="StartAndExpand"
-                Text="Hoefling Software"
-                VerticalOptions="CenterAndExpand" />
-            <Image
-                HorizontalOptions="End"
-                Source="company_logo"
-                VerticalOptions="CenterAndExpand" />
+            <Image Source="tthklogo.png"
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"
+                   Margin="10"/>
+            <Label Text="Tallinna Tööstushariduskeskus"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalTextAlignment="Center"/>
         </StackLayout>
-    </NavigationPage.TitleView>
+    </Shell.TitleView>
+
     <ContentPage.ToolbarItems>
-        <ToolbarItem
-            Clicked="InfoButton_Clicked"
-            IconImageSource="info.png"
-            x:Name="InfoButton" />
+        <ToolbarItem IconImageSource="info.png"
+                     Clicked="InfoButton_Clicked"/>
     </ContentPage.ToolbarItems>
     <StackLayout>
-        <!--  Place new controls here  -->
-        <Label
-            HorizontalOptions="CenterAndExpand"
-            Text="Welcome to Xamarin.Forms!"
-            VerticalOptions="CenterAndExpand" />
+        <Label x:Name="YourGroup"
+               BackgroundColor="#A22538"
+               TextColor="White"
+               FontSize="Large"
+               Padding="5,5,0,5"
+               HorizontalOptions="FillAndExpand"
+        />
+        <Picker x:Name="GroupPicker"
+                SelectedIndexChanged="Picker_OnSelectedIndexChanged"
+                VerticalOptions="Center">
+            <Picker.Items>
+                <x:String>TARpv18</x:String>
+                <x:String>TARpv19</x:String>
+                <x:String>TARpv20</x:String>
+                <x:String>LOGITpv18</x:String>
+                <x:String>LOGITpv19</x:String>
+                <x:String>LOGITpv20</x:String>
+                <x:String>MEHpv19</x:String>
+                <x:String>MEHpv20</x:String>
+                <x:String>TITpv19</x:String>
+                <x:String>TITpv20</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <ImageButton Source="telegram.png" HeightRequest="50" Clicked="TelegramButtonClick"/>
     </StackLayout>
 
 </ContentPage>

@@ -5,12 +5,59 @@
     x:Class="tthk_app.ChangesPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label
-                HorizontalOptions="CenterAndExpand"
-                Text="Siia tulevad tunniplaani muudatused."
-                VerticalOptions="CenterAndExpand" />
+    <!--  xmlns:local="ChangesPageViewModel"!  -->
+    <Shell.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label x:Name="TitleBarLabel"  Text="Tunniplaani muudatused"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalTextAlignment="Center"/>
         </StackLayout>
+    </Shell.TitleView>
+    <ContentPage.Content>
+        <ListView
+            CachingStrategy="RecycleElementAndDataTemplate"
+            GroupDisplayBinding="{Binding Name}"
+            HasUnevenRows="True"
+            IsGroupingEnabled="True"
+            IsPullToRefreshEnabled="True"
+            ItemsSource="{Binding ChangeGroups}"
+            Refreshing="ChangesListView_OnRefreshing"
+            x:Name="ChangesListView">
+            <ListView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <ViewCell Height="35">
+                        <StackLayout BackgroundColor="#A22538" Orientation="Horizontal">
+                            <Label
+                                FontSize="Large"
+                                HorizontalOptions="FillAndExpand"
+                                Margin="10,2,0,0"
+                                Text="{Binding Name}"
+                                TextColor="White" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.GroupHeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Margin="10">
+                            <StackLayout Orientation="Horizontal">
+                                <Label FontSize="18" Text="{Binding Group}" />
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Margin="0,0,15,0" Text="{Binding Lesson}" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    Margin="0,0,10,0"
+                                    Text="{Binding Teacher}" />
+                                <Label Text="{Binding Room}" />
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </ContentPage.Content>
 </ContentPage>

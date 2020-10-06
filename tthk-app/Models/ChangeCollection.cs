@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using Fizzler;
+using tthk_app.ParsingService;
+using Xamarin.Essentials;
+
+namespace tthk_app.Models
+{
+    public class ChangeCollection
+    {
+        public static IEnumerable<Change> GetChangeList(bool cache)
+        {
+            var changesList = new List<Change>();
+            List<List<string>> changeRows;
+            if (cache)
+            {
+                 changeRows = ParserEngine.ParseChangesFromCache(Preferences.Get("html", "none"));
+            }
+            else
+            {
+                changeRows = ParserEngine.ParseChanges();
+            }
+            if (changeRows.Count > 0)
+            {
+                foreach (var changesRow in changeRows)
+                {
+                    Change change = new Change();
+                    DateTime changeDate =
+                        DateTime.ParseExact(changesRow[1], "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                    change.Date = changeDate.ToString("dd.MM.yyyy");
+                    change.DayOfWeek = changeDate.DayOfWeek;
+                    change.Group = changesRow[2];
+                    change.Lesson = changesRow[3].Replace("&#8211;", "-");
+                    change.Teacher = changesRow[4];
+                    if (changesRow.Count > 5)
+                    {
+                        change.Room = changesRow[5];
+                    }
+                    else
+                    {
+                        change.Room = "";
+                    }
+
+                    changesList.Add(change);
+                }
+                IEnumerable<Change> changesEnum = changesList;
+                return changesEnum;
+            }
+            return null;
+        }
+    }
+}
