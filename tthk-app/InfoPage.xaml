@@ -6,16 +6,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Shell.TitleView>
         <StackLayout Orientation="Horizontal">
-            <Label Text="Meist"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="White"
-                   VerticalTextAlignment="Center"/>
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="Meist"
+                TextColor="White"
+                VerticalTextAlignment="Center" />
         </StackLayout>
     </Shell.TitleView>
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="VkButton" IconImageSource="vk.png"/>
-        <ToolbarItem x:Name="GitHubButton" IconImageSource="github.png"/>
+        <ToolbarItem
+            Clicked="VkButton_OnClicked"
+            IconImageSource="vk.png"
+            x:Name="VkButton" />
+        <ToolbarItem
+            Clicked="GitHubButton_OnClicked"
+            IconImageSource="github.png"
+            x:Name="GitHubButton" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>

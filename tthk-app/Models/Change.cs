@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Reflection;
-using FSharp.Data.Runtime;
 using tthk_app.ParsingService;
 
 namespace tthk_app.Models

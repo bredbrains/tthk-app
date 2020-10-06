@@ -4,6 +4,16 @@
     x:Class="tthk_app.SettingsPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Shell.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="Sätted"
+                TextColor="White"
+                VerticalTextAlignment="Center" />
+        </StackLayout>
+    </Shell.TitleView>
     <ContentPage.Content>
         <TableView>
             <TableRoot>
@@ -27,7 +37,7 @@
                 </TableSection>
                 <TableSection Title="Muud">
                     <ViewCell Tapped="AuthorsCellTapped">
-                        <StackLayout Margin="10,10,0,0" Orientation="Horizontal">
+                        <StackLayout Margin="20,10,0,0" Orientation="Horizontal">
                             <Label Text="Autorid" />
                         </StackLayout>
                     </ViewCell>

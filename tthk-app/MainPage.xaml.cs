@@ -11,6 +11,7 @@ namespace tthk_app
 
     public partial class MainPage
     {
+        string[] estMonths = new string[] {"jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"};
         public MainPage()
         {
             InitializeComponent();
@@ -20,9 +21,16 @@ namespace tthk_app
         {
             int TodayMonthNumber = DateTime.Now.Month;
             int TodayDayNumber = DateTime.Now.Day;
-            TodayDateLabel.Text = $"{TodayDayNumber}.{TodayMonthNumber}";
+            TodayDateLabel.Text = $"{TodayDayNumber}. {estMonths[TodayMonthNumber-1]}";
             string name = Preferences.Get("name", "none");
-            YourGroup.Text = "Teie grupp: " + name;
+            if (name != "none")
+            {
+                HelloToUser.Text = $"Tere, {name}!";
+            }
+            else
+            {
+                HelloToUser.Text = "Tere!";
+            }
             base.OnAppearing();
         }
 
