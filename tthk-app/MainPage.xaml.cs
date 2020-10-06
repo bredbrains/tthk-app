@@ -34,16 +34,9 @@ namespace tthk_app
             base.OnAppearing();
         }
 
-        private void InfoButton_Clicked(object sender, EventArgs e)
+        private void SettingsButtonClicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new SettingsPage());
-        }
-        
-        private void Picker_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            string value = GroupPicker.Items[GroupPicker.SelectedIndex];
-            Preferences.Set("name", value);
-            YourGroup.Text = "Teie rühm: " + GroupPicker.Items[GroupPicker.SelectedIndex];
         }
 
         private async void OpenTelegramChannel()

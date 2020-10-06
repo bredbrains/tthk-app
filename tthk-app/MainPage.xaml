@@ -25,7 +25,7 @@
     </Shell.TitleView>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Clicked="InfoButton_Clicked" IconImageSource="settings.png" />
+        <ToolbarItem Clicked="SettingsButtonClicked" IconImageSource="settings.png" />
     </ContentPage.ToolbarItems>
     <StackLayout>
         <StackLayout Margin="10,10,0,0" Orientation="Horizontal">
@@ -36,34 +36,10 @@
                 x:Name="HelloToUser" />
             <Label FontSize="18" x:Name="TodayDateLabel" />
         </StackLayout>
-        <Label
-            BackgroundColor="#A22538"
-            FontSize="Large"
-            HorizontalOptions="FillAndExpand"
-            Padding="5,5,0,5"
-            TextColor="White"
-            x:Name="YourGroup" />
-        <Picker
-            SelectedIndexChanged="Picker_OnSelectedIndexChanged"
-            VerticalOptions="Center"
-            x:Name="GroupPicker">
-            <Picker.Items>
-                <x:String>TARpv18</x:String>
-                <x:String>TARpv19</x:String>
-                <x:String>TARpv20</x:String>
-                <x:String>LOGITpv18</x:String>
-                <x:String>LOGITpv19</x:String>
-                <x:String>LOGITpv20</x:String>
-                <x:String>MEHpv19</x:String>
-                <x:String>MEHpv20</x:String>
-                <x:String>TITpv19</x:String>
-                <x:String>TITpv20</x:String>
-            </Picker.Items>
-        </Picker>
-
         <ImageButton
             Clicked="TelegramButtonClick"
             HeightRequest="50"
+            Margin="50,0"
             Source="telegram.png" />
     </StackLayout>
 
