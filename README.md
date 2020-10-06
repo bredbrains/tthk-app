@@ -5,5 +5,5 @@
 * Able to watch yours timetable
 * Able to watch yours school plan
 
-## Sponsors:
+## Sponsors
 * **Kristina Pankova** - 5 EUR
