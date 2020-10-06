@@ -68,6 +68,7 @@ namespace tthk_app
                 else
                 {
                     Content = ChangesListView;
+                    ChangesListView.IsRefreshing = false;
                 }
 
                 DependencyService.Get<IMessage>().ShortAlert("Teil puudub ühendus.");
