@@ -36,33 +36,5 @@ namespace tthk_app.ParsingService
 
             return changeRows;
         }
-
-        public static List<List<string>> ParseChangesFromCache(string html)
-        {
-            List<string> stopList = new List<string>() {"Kuupäev", "Rühm", "Tund", "Õpetaja", "Ruum", "", "\n", "\t"};
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-            List<List<string>> changeRows = new List<List<string>>();
-            var rows = doc.DocumentNode.SelectNodes("//table").Descendants("tr");
-            foreach (var tr in rows)
-            {
-                List<string> changeList = new List<string>();
-                foreach (var td in tr.ChildNodes)
-                {
-                    _cellText = td.InnerText.Trim();
-                    if (!stopList.Contains(_cellText))
-                    {
-                        changeList.Add(_cellText);
-                    }
-                }
-
-                if (changeList.Count != 0)
-                {
-                    changeRows.Add(changeList);
-                }
-            }
-
-            return changeRows;
-        }
     }
 }

@@ -13,6 +13,7 @@ namespace tthk_app.Models
             var changesList = new List<Change>();
             List<List<string>> changeRows;
             changeRows = ParserEngine.ParseChanges();
+            App.Database.ClearTable();
             if (changeRows.Count > 0)
             {
                 foreach (var changesRow in changeRows)
@@ -21,7 +22,7 @@ namespace tthk_app.Models
                     DateTime changeDate =
                         DateTime.ParseExact(changesRow[1], "dd.MM.yyyy", CultureInfo.InvariantCulture);
                     change.Date = changeDate.ToString("dd.MM.yyyy");
-                    change.DayOfWeek = changeDate.DayOfWeek;
+                    change.DayOfWeek = (int)changeDate.DayOfWeek;
                     change.Group = changesRow[2];
                     change.Lesson = changesRow[3].Replace("&#8211;", "-");
                     change.Teacher = changesRow[4];
@@ -34,6 +35,7 @@ namespace tthk_app.Models
                         change.Room = "";
                     }
 
+                    App.Database.SaveItemAsync(change);
                     changesList.Add(change);
                 }
                 IEnumerable<Change> changesEnum = changesList;

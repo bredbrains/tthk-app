@@ -15,15 +15,32 @@ namespace tthk_app
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChangesPage : ContentPage
     {
-        // TODO: Add changes caching.
-        
+        private async Task GetChangesFromDatabase()
+        {
+            var databaseItems = await App.Database.GetItemsAsync();
+            if (databaseItems.Count != 0)
+            {
+                ChangesListView.IsRefreshing = false;
+                await Task.Run(() => { LoadChanges(databaseItems); });
+            }
+            else
+            {
+                DependencyService.Get<IMessage>().ShortSnackbar("Teil puuduvad salvestatud andmed.");
+            }
+        }
+
+        private void RefreshButtonOnBlankPageClicked(object sender, EventArgs e)
+        {
+            ChecksConnection();
+        }
+
         char[] estDayOfWeeks = new char[7] {'E', 'T', 'K', 'N', 'R', 'L', 'P'};
         public ObservableCollection<ChangeGrouping<string, Change>> ChangeGroups { get; set; }
 
         private void LoadChanges(IEnumerable<Change> _changes)
         {
             var changes = _changes;
-            var groups = changes.GroupBy(c => estDayOfWeeks[(int)c.DayOfWeek-1] + ", " + c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
+            var groups = changes.GroupBy(c => estDayOfWeeks[c.DayOfWeek-1] + ", " + c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
             ChangeGroups = new ObservableCollection<ChangeGrouping<string, Change>>(groups);
             this.BindingContext = this;
         }
@@ -50,26 +67,39 @@ namespace tthk_app
                     activityIndicator.IsRunning = false;
                     activityIndicator.IsVisible = false;
                     InitializeComponent();
-                    ChangesListView.IsRefreshing = false;
                 }
                 else
                 {
                     Title = "Tunniplaani muudatused";
-                    ChangesListView.IsRefreshing = false;
+                    
                 }
-
+                ChangesListView.IsRefreshing = false;
                 ChangesListView.RefreshControlColor = Color.FromHex("#A22538");
             }
             else
             {
+                Title = "Saan muudatused...";
+                ActivityIndicator activityIndicator = new ActivityIndicator
+                {
+                    IsRunning = true, Margin = 175, Color = Color.FromHex("#A22538")
+                };
                 if (ChangesListView == null)
                 {
+                    Content = activityIndicator;
+                }
+                await GetChangesFromDatabase();
+                if (ChangesListView == null)
+                {
+                    activityIndicator.IsRunning = false;
+                    activityIndicator.IsEnabled = false;
                     InitializeComponent();
+                    ChangesListView.IsRefreshing = false;
+                    
                 }
                 else
                 {
-                    Content = ChangesListView;
                     ChangesListView.IsRefreshing = false;
+                    Content = ChangesListView;
                 }
 
                 DependencyService.Get<IMessage>().ShortAlert("Teil puudub ühendus.");

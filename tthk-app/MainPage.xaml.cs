@@ -24,7 +24,7 @@ namespace tthk_app
                 var evtData = (NotificationEventArgs)eventArgs;
             };
         }
-        
+
         void GetNotification()
         {
             notificationNumber++;
@@ -41,7 +41,27 @@ namespace tthk_app
             string name = Preferences.Get("name", "none");
             if (name != "none")
             {
-                HelloToUser.Text = $"Tere, {name}!";
+                int nowHour = DateTime.Now.Hour;
+                if (nowHour > 4)
+                {
+                    HelloToUser.Text = $"Tere hommikust, {name}!";
+                }
+                else if (nowHour > 11)
+                {
+                    HelloToUser.Text = $"Tere päevast, {name}!";
+                }
+                else if (nowHour > 15)
+                {
+                    HelloToUser.Text = $"Tere õhtust, {name}!";
+                }
+                else if (nowHour > 22)
+                {
+                    HelloToUser.Text = $"Head ööd, {name}!";
+                }
+                else
+                {
+                    HelloToUser.Text = $"Head ööd, {name}!";
+                }
             }
             else
             {
