@@ -11,28 +11,68 @@ namespace tthk_app
 
     public partial class MainPage
     {
+        INotificationManager notificationManager;
+        private int notificationNumber = 0;
+        string[] estMonths = new string[] {"jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"};
         public MainPage()
         {
             InitializeComponent();
+            notificationManager = DependencyService.Get<INotificationManager>();
+            GetNotification();
+            notificationManager.NotificationReceived += (sender, eventArgs) =>
+            {
+                var evtData = (NotificationEventArgs)eventArgs;
+            };
+        }
+
+        void GetNotification()
+        {
+            notificationNumber++;
+            string title = $"Tunniplaani muudatused";
+            string message = $"Teil puuduvad muudatused.";
+            notificationManager.ScheduleNotification(title, message);
         }
 
         protected override void OnAppearing()
         {
+            int TodayMonthNumber = DateTime.Now.Month;
+            int TodayDayNumber = DateTime.Now.Day;
+            TodayDateLabel.Text = $"{TodayDayNumber}. {estMonths[TodayMonthNumber-1]}";
             string name = Preferences.Get("name", "none");
-            YourGroup.Text = "Teie grupp: " + name;
+            if (name != "none")
+            {
+                int nowHour = DateTime.Now.Hour;
+                if (nowHour > 4)
+                {
+                    HelloToUser.Text = $"Tere hommikust, {name}!";
+                }
+                else if (nowHour > 11)
+                {
+                    HelloToUser.Text = $"Tere päevast, {name}!";
+                }
+                else if (nowHour > 15)
+                {
+                    HelloToUser.Text = $"Tere õhtust, {name}!";
+                }
+                else if (nowHour > 22)
+                {
+                    HelloToUser.Text = $"Head ööd, {name}!";
+                }
+                else
+                {
+                    HelloToUser.Text = $"Head ööd, {name}!";
+                }
+            }
+            else
+            {
+                HelloToUser.Text = "Tere!";
+            }
             base.OnAppearing();
         }
 
-        private void InfoButton_Clicked(object sender, EventArgs e)
+        private void SettingsButtonClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new InfoPage());
-        }
-        
-        private void Picker_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            string value = GroupPicker.Items[GroupPicker.SelectedIndex];
-            Preferences.Set("name", value);
-            YourGroup.Text = "Teie rühm: " + GroupPicker.Items[GroupPicker.SelectedIndex];
+            Navigation.PushAsync(new SettingsPage());
         }
 
         private async void OpenTelegramChannel()

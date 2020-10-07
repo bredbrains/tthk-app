@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Reflection;
-using FSharp.Data.Runtime;
-using tthk_app.ParsingService;
+using SQLite;
 
 namespace tthk_app.Models
 {
     public class Change
     {
-        public DayOfWeek DayOfWeek { get; set; }
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        public int DayOfWeek { get; set; }
         public string Date { get; set; }
         public string Group { get; set; }
         public string Lesson { get; set; }

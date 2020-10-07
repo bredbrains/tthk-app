@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="tthk_app.SettingsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Shell.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="Sätted"
+                TextColor="White"
+                VerticalTextAlignment="Center" />
+        </StackLayout>
+    </Shell.TitleView>
+    <ContentPage.Content>
+        <TableView>
+            <TableRoot>
+                <TableSection Title="Muudatused">
+                    <SwitchCell
+                        OnChanged="ChangesNotifcations_OnChanged"
+                        Text="Teated muudatuste kohta"
+                        x:Name="ChangesNotifcations" />
+                </TableSection>
+                <TableSection Title="Andmed">
+                    <EntryCell
+                        Completed="UserName_OnCompleted"
+                        Label="Nimi"
+                        Placeholder="John"
+                        x:Name="UserName" />
+                    <EntryCell
+                        Completed="UserGroup_OnCompleted"
+                        Label="Rühm"
+                        Placeholder="LOGApv19-1"
+                        x:Name="UserGroup" />
+                </TableSection>
+                <TableSection Title="Muud">
+                    <ViewCell Tapped="AuthorsCellTapped">
+                        <StackLayout Margin="20,10,0,0" Orientation="Horizontal">
+                            <Label Text="Autorid" />
+                        </StackLayout>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+    </ContentPage.Content>
+</ContentPage>

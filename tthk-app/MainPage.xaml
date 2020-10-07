@@ -10,48 +10,37 @@
 
     <Shell.TitleView>
         <StackLayout Orientation="Horizontal">
-            <Image Source="tthklogo.png"
-                   HorizontalOptions="Start"
-                   VerticalOptions="FillAndExpand"
-                   Margin="10"/>
-            <Label Text="Tallinna Tööstushariduskeskus"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="White"
-                   VerticalTextAlignment="Center"/>
+            <Image
+                HorizontalOptions="Start"
+                Margin="10"
+                Source="tthklogo.png"
+                VerticalOptions="FillAndExpand" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="Tallinna Tööstushariduskeskus"
+                TextColor="White"
+                VerticalTextAlignment="Center" />
         </StackLayout>
     </Shell.TitleView>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="info.png"
-                     Clicked="InfoButton_Clicked"/>
+        <ToolbarItem Clicked="SettingsButtonClicked" IconImageSource="settings.png" />
     </ContentPage.ToolbarItems>
     <StackLayout>
-        <Label x:Name="YourGroup"
-               BackgroundColor="#A22538"
-               TextColor="White"
-               FontSize="Large"
-               Padding="5,5,0,5"
-               HorizontalOptions="FillAndExpand"
-        />
-        <Picker x:Name="GroupPicker"
-                SelectedIndexChanged="Picker_OnSelectedIndexChanged"
-                VerticalOptions="Center">
-            <Picker.Items>
-                <x:String>TARpv18</x:String>
-                <x:String>TARpv19</x:String>
-                <x:String>TARpv20</x:String>
-                <x:String>LOGITpv18</x:String>
-                <x:String>LOGITpv19</x:String>
-                <x:String>LOGITpv20</x:String>
-                <x:String>MEHpv19</x:String>
-                <x:String>MEHpv20</x:String>
-                <x:String>TITpv19</x:String>
-                <x:String>TITpv20</x:String>
-            </Picker.Items>
-        </Picker>
-
-        <ImageButton Source="telegram.png" HeightRequest="50" Clicked="TelegramButtonClick"/>
+        <StackLayout Margin="10,10,0,0" Orientation="Horizontal">
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="Tere, Nikolas!"
+                x:Name="HelloToUser" />
+            <Label FontSize="18" x:Name="TodayDateLabel" />
+        </StackLayout>
+        <ImageButton
+            Clicked="TelegramButtonClick"
+            HeightRequest="50"
+            Margin="50,0"
+            Source="telegram.png" />
     </StackLayout>
 
 </ContentPage>

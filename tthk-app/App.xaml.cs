@@ -1,11 +1,25 @@
-﻿using Xamarin.Forms;
-using Plugin.NFC;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using tthk_app.Models;
 
-[assembly: ExportFont("SFProFont.ttf", Alias = "SFProFont")]
 namespace tthk_app
 {
     public partial class App
     {
+        static ChangeDatabase database;
+        public static ChangeDatabase Database
+        {
+            get
+            {
+                if (database == null)
+                {
+                    database = new ChangeDatabase();
+                }
+                return database;
+            }
+        }
+        
         public App()
         {
             InitializeComponent();
@@ -24,5 +38,6 @@ namespace tthk_app
         protected override void OnResume()
         {
         }
+        
     }
 }

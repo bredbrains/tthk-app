@@ -8,11 +8,13 @@
     <!--  xmlns:local="ChangesPageViewModel"!  -->
     <Shell.TitleView>
         <StackLayout Orientation="Horizontal">
-            <Label x:Name="TitleBarLabel"  Text="Tunniplaani muudatused"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="White"
-                   VerticalTextAlignment="Center"/>
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="Tunniplaani muudatused"
+                TextColor="White"
+                VerticalTextAlignment="Center"
+                x:Name="TitleBarLabel" />
         </StackLayout>
     </Shell.TitleView>
     <ContentPage.Content>
