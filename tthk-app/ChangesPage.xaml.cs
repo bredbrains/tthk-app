@@ -29,11 +29,6 @@ namespace tthk_app
             }
         }
 
-        private void RefreshButtonOnBlankPageClicked(object sender, EventArgs e)
-        {
-            ChecksConnection();
-        }
-
         char[] estDayOfWeeks = new char[7] {'E', 'T', 'K', 'N', 'R', 'L', 'P'};
         public ObservableCollection<ChangeGrouping<string, Change>> ChangeGroups { get; set; }
 
