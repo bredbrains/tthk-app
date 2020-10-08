@@ -26,7 +26,6 @@
     <EmbeddedResource Include="Resources\Fonts\SFProFont.ttf" />
     <None Remove="changes.db" />
     <None Remove="changes.db3" />
-    <EmbeddedResource Include="changes.db3" />
   </ItemGroup>
 
   <ItemGroup>

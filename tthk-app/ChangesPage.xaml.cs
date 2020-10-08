@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using tthk_app.Models;
@@ -15,13 +16,13 @@ namespace tthk_app
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChangesPage : ContentPage
     {
+        private ActivityIndicator activityIndicator;
         private async Task GetChangesFromDatabase()
         {
             var databaseItems = await App.Database.GetItemsAsync();
-            if (databaseItems.Count != 0)
+            if (databaseItems.Count > 0)
             {
-                ChangesListView.IsRefreshing = false;
-                await Task.Run(() => { LoadChanges(databaseItems); });
+                LoadChanges(databaseItems);
             }
             else
             {
@@ -47,7 +48,7 @@ namespace tthk_app
             if (current == NetworkAccess.Internet)
             {
                 Title = "Saan muudatused...";
-                ActivityIndicator activityIndicator = new ActivityIndicator
+                activityIndicator = new ActivityIndicator
                 {
                     IsRunning = true, Margin = 175, Color = Color.FromHex("#A22538")
                 };
@@ -74,7 +75,7 @@ namespace tthk_app
             else
             {
                 Title = "Saan muudatused...";
-                ActivityIndicator activityIndicator = new ActivityIndicator
+                activityIndicator = new ActivityIndicator
                 {
                     IsRunning = true, Margin = 175, Color = Color.FromHex("#A22538")
                 };
