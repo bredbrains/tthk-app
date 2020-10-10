@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace tthk_app
             string name = Preferences.Get("name", "none");
             string group = Preferences.Get("group", "none");
             bool notifications = Preferences.Get("changesNotifications", false);
+            DateTime notificationsTime = Preferences.Get("changesNotificationsTime", DateTime.Today);
             if (name != "none")
             {
                 UserName.Text = name;
@@ -39,6 +41,17 @@ namespace tthk_app
             if (notifications)
             {
                 ChangesNotifcations.On = true;
+            }
+
+            if (notificationsTime != DateTime.Today && ChangesNotifcations.On)
+            {
+                NotificationTimePicker.IsEnabled = true;
+                NotificationTimePicker.Time = new TimeSpan(notificationsTime.Hour, notificationsTime.Minute, notificationsTime.Second);
+            }
+            else
+            {
+                NotificationTimePicker.IsEnabled = false;
+                NotificationTimePicker.Time = new TimeSpan(notificationsTime.Hour, notificationsTime.Minute, notificationsTime.Second);
             }
         }
 
@@ -92,13 +105,26 @@ namespace tthk_app
 
         private void ChangesNotifcations_OnChanged(object sender, ToggledEventArgs e)
         {
-            if (ChangesNotifcations.On == true)
+            if (ChangesNotifcations.On)
             {
                 Preferences.Set("changesNotifications", true);
+                NotificationTimePicker.IsEnabled = true;
             }
             else
             {
                 Preferences.Set("changesNotifications", false);
+                NotificationTimePicker.IsEnabled = false;
+            }
+        }
+
+        private void NotificationTimeChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Time" && ChangesNotifcations.On)
+            {
+                TimePicker tp = sender as TimePicker;
+                TimeSpan pickedTime = tp.Time;
+                DateTime changesTime = new DateTime(1, 1, 1) + pickedTime;
+                Preferences.Set("changesNotificationsTime", changesTime);
             }
         }
     }
