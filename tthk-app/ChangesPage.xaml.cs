@@ -32,9 +32,11 @@ namespace tthk_app
 
         char[] estDayOfWeeks = new char[7] {'E', 'T', 'K', 'N', 'R', 'L', 'P'};
         public ObservableCollection<ChangeGrouping<string, Change>> ChangeGroups { get; set; }
+        public List<Change> ParsedChanges { get; set; }
 
         private void LoadChanges(IEnumerable<Change> _changes)
         {
+            ParsedChanges = _changes as List<Change>;
             var changes = _changes;
             var groups = changes.GroupBy(c => estDayOfWeeks[c.DayOfWeek-1] + ", " + c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
             ChangeGroups = new ObservableCollection<ChangeGrouping<string, Change>>(groups);
@@ -63,11 +65,21 @@ namespace tthk_app
                     activityIndicator.IsRunning = false;
                     activityIndicator.IsVisible = false;
                     InitializeComponent();
+                    string group = Preferences.Get("group", "none");
+                    if (group != "none")
+                    {
+                        ChangesPageSearchBar.Placeholder = group;
+                    }
                 }
                 else
                 {
                     Title = "Tunniplaani muudatused";
-                    
+                    string group = Preferences.Get("group", "none");
+                    if (group != "none")
+                    {
+                        ChangesPageSearchBar.Placeholder = group;
+                        Content = ChangesListView;
+                    }
                 }
                 ChangesListView.IsRefreshing = false;
                 ChangesListView.RefreshControlColor = Color.FromHex("#A22538");
@@ -90,7 +102,12 @@ namespace tthk_app
                     activityIndicator.IsEnabled = false;
                     InitializeComponent();
                     ChangesListView.IsRefreshing = false;
-                    
+                    string group = Preferences.Get("group", "none");
+                    if (group != "none")
+                    {
+                        ChangesPageSearchBar.Placeholder = group;
+                    }
+
                 }
                 else
                 {
@@ -110,12 +127,69 @@ namespace tthk_app
         public ChangesPage()
         {
             ChecksConnection();
+            
         }
 
         private void ChangesListView_OnRefreshing(object sender, EventArgs e)
         {
             ChangesListView.IsRefreshing = true;
             ChecksConnection();
+        }
+
+        private void ChangesListView_OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (e.Item != null)
+            {
+                var content = e.Item as Change;
+                if (content != null)
+                {
+                    string text;
+                    text = $"Tunniplaani muudatus: \n{estDayOfWeeks[content.DayOfWeek-1]}, {content.Date}\nTunnid: {content.Lesson}\n{content.Group}\n{content.Teacher}\n{content.Room}";
+                    ShareText(text);
+                }
+            }
+            ((ListView)sender).SelectedItem = null;
+        }
+        public async void ShareText(string text)
+        {
+            await Share.RequestAsync(new ShareTextRequest
+            {
+                Text = text,
+                Title = "Saata muudatus"
+            });
+        }
+
+        private void ChangesPageSearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+            SearchBar searchBar = sender as SearchBar;
+            if (searchBar != null && searchBar.Text != null && ParsedChanges != null)
+            {
+                List<Change> searchedChanges = new List<Change>();
+                string text = searchBar.Text;
+                foreach (var change in ParsedChanges)
+                {
+                    if (change.Group.Contains(text) || change.Teacher.Contains(text) || change.Room.Contains(text))
+                    {
+                        searchedChanges.Add(change);
+                    }
+                }
+                var groups = searchedChanges.GroupBy(c => estDayOfWeeks[c.DayOfWeek-1] + ", " + c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
+                var collectionOfChangesGroups = new ObservableCollection<ChangeGrouping<string, Change>>(groups);
+                ChangesListView.ItemsSource = collectionOfChangesGroups;
+                Content = ChangesListView;
+                if (searchedChanges.Count == 0)
+                {
+                    Content = new Label()
+                    {
+                        Text = "Kahjuks, midagi pole leitud.",
+                        HorizontalOptions = LayoutOptions.CenterAndExpand,
+                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                        VerticalTextAlignment = TextAlignment.Center,
+                        HorizontalTextAlignment = TextAlignment.Center
+                    };
+                }
+            }
         }
     }
 }

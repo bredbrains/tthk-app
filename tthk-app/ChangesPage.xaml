@@ -7,14 +7,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <!--  xmlns:local="ChangesPageViewModel"!  -->
     <Shell.TitleView>
-        <StackLayout Orientation="Horizontal">
-            <Label
-                FontAttributes="Bold"
-                FontSize="18"
-                Text="Tunniplaani muudatused"
-                TextColor="White"
-                VerticalTextAlignment="Center"
-                x:Name="TitleBarLabel" />
+        <StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="17"
+                    HorizontalTextAlignment="Center"
+                    Text="Otsing"
+                    TextColor="White"
+                    VerticalTextAlignment="Center" />
+                <SearchBar
+                    CancelButtonColor="White"
+                    FontSize="18"
+                    HorizontalOptions="End"
+                    Placeholder="Otsi..."
+                    PlaceholderColor="White"
+                    TextChanged="ChangesPageSearchBar_OnTextChanged"
+                    TextColor="White"
+                    x:Name="ChangesPageSearchBar" />
+            </StackLayout>
         </StackLayout>
     </Shell.TitleView>
     <ContentPage.Content>
@@ -24,6 +35,7 @@
             HasUnevenRows="True"
             IsGroupingEnabled="True"
             IsPullToRefreshEnabled="True"
+            ItemTapped="ChangesListView_OnItemTapped"
             ItemsSource="{Binding ChangeGroups}"
             Refreshing="ChangesListView_OnRefreshing"
             x:Name="ChangesListView">

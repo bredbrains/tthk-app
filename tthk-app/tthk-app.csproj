@@ -34,6 +34,7 @@
       <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
       <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
       <PackageReference Include="Plugin.NFC" Version="0.1.17" />
+      <PackageReference Include="Shiny.Core" Version="1.2.0.1755" />
       <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
       <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
       <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />

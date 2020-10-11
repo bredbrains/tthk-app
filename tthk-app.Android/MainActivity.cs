@@ -30,7 +30,7 @@ namespace tthk_app.Droid
             Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
             
-            CreateNotificationFromIntent(Intent);
+            // CreateNotificationFromIntent(Intent);
         }
 
         void CreateNotificationFromIntent(Intent intent)
@@ -45,8 +45,8 @@ namespace tthk_app.Droid
 
         protected override void OnNewIntent(Intent intent)
         {
-            base.OnNewIntent(intent);
-            CreateNotificationFromIntent(intent);
+            // base.OnNewIntent(intent);
+            // CreateNotificationFromIntent(intent);
 
             // Plugin NFC: Tag Discovery Interception
             CrossNFC.OnNewIntent(intent);

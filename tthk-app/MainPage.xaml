@@ -32,15 +32,38 @@
             <Label
                 FontAttributes="Bold"
                 FontSize="18"
-                Text="Tere, Nikolas!"
+                Text="Tere!"
                 x:Name="HelloToUser" />
             <Label FontSize="18" x:Name="TodayDateLabel" />
         </StackLayout>
+        <Label
+            FontAttributes="Bold"
+            FontSize="18"
+            Margin="10,20,0,0"
+            Text="Muudatused" />
+        <Frame
+            BackgroundColor="Silver"
+            CornerRadius="15"
+            Margin="10,0">
+            <StackLayout>
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="17"
+                    Text="Täna" />
+                <Label Margin="0" Text="Muudatused puuduvad" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="17"
+                    Text="Hiljem" />
+                <Label Margin="0" Text="Muudatused puuduvad" />
+            </StackLayout>
+        </Frame>
         <ImageButton
             Clicked="TelegramButtonClick"
             HeightRequest="50"
-            Margin="50,0"
-            Source="telegram.png" />
+            Margin="150,0"
+            Source="telegram.png"
+            VerticalOptions="End" />
     </StackLayout>
 
 </ContentPage>

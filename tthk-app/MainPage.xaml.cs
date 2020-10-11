@@ -18,11 +18,11 @@ namespace tthk_app
         {
             InitializeComponent();
             notificationManager = DependencyService.Get<INotificationManager>();
-            GetNotification();
-            notificationManager.NotificationReceived += (sender, eventArgs) =>
+            // GetNotification();
+            /* notificationManager.NotificationReceived += (sender, eventArgs) =>
             {
                 var evtData = (NotificationEventArgs)eventArgs;
-            };
+            }; */
         }
 
         void GetNotification()

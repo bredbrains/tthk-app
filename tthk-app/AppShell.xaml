@@ -16,16 +16,19 @@
     </Shell.Resources>
     <TabBar Style="{StaticResource BaseStyle}">
         <Tab Icon="home.png" Title="Avaleht">
-            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}"/>
+            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}" />
         </Tab>
         <Tab Icon="calendarx.png" Title="Muudatused">
             <ShellContent ContentTemplate="{DataTemplate pages:ChangesPage}" />
         </Tab>
-        <Tab Icon="studentscard.png" Title="Õpilaspilet">
-            <ShellContent ContentTemplate="{DataTemplate pages:CardPage}" />
+        <Tab Icon="calendar.png" Title="Tunniplaan">
+            <ShellContent ContentTemplate="{DataTemplate pages:TimetablePage}" />
         </Tab>
-        <Tab Title="Tunniplaan">
-            <ShellContent ContentTemplate="{DataTemplate pages:TimetablePage}"/>
+        <Tab
+            Icon="studentscard.png"
+            IsVisible="False"
+            Title="Õpilaspilet">
+            <ShellContent ContentTemplate="{DataTemplate pages:CardPage}" />
         </Tab>
     </TabBar>
 </Shell>
