@@ -9,6 +9,8 @@
     <Version>1.0.1</Version>
     <PackageIcon>tthklogoapp.png</PackageIcon>
     <Copyright>Nikolas Laus</Copyright>
+    <AssemblyOriginatorKeyFile>tthkAppSign.snk</AssemblyOriginatorKeyFile>
+    <PublicSign>false</PublicSign>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

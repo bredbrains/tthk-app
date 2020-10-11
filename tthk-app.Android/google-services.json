@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1066818145232",
+    "firebase_url": "https://tthkapp.firebaseio.com",
+    "project_id": "tthkapp",
+    "storage_bucket": "tthkapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066818145232:android:21a20429ea19969fa447d5",
+        "android_client_info": {
+          "package_name": "com.bredbrains.tthkapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066818145232-18v8lhe37q5jc1grlntaj09ei22the7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVb4TsjYDcw6IFzHCrw0MQJwSiagUwA9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066818145232-18v8lhe37q5jc1grlntaj09ei22the7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

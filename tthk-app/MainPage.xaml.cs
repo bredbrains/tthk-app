@@ -41,24 +41,20 @@ namespace tthk_app
             string name = Preferences.Get("name", "none");
             if (name != "none")
             {
-                int nowHour = DateTime.Now.Hour;
-                if (nowHour > 4)
+                var nowHour = DateTime.Now.Hour;
+                if (nowHour >= 4 && nowHour < 12)
                 {
                     HelloToUser.Text = $"Tere hommikust, {name}!";
                 }
-                else if (nowHour > 11)
+                else if (nowHour >= 12 && nowHour < 16)
                 {
                     HelloToUser.Text = $"Tere päevast, {name}!";
                 }
-                else if (nowHour > 15)
+                else if (nowHour >= 16 && nowHour < 23)
                 {
                     HelloToUser.Text = $"Tere õhtust, {name}!";
                 }
-                else if (nowHour > 22)
-                {
-                    HelloToUser.Text = $"Head ööd, {name}!";
-                }
-                else
+                else if (nowHour == 23 || nowHour < 4)
                 {
                     HelloToUser.Text = $"Head ööd, {name}!";
                 }
