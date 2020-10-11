@@ -24,5 +24,8 @@
         <Tab Icon="studentscard.png" Title="Õpilaspilet">
             <ShellContent ContentTemplate="{DataTemplate pages:CardPage}" />
         </Tab>
+        <Tab Title="Tunniplaan">
+            <ShellContent ContentTemplate="{DataTemplate pages:TimetablePage}"/>
+        </Tab>
     </TabBar>
 </Shell>
