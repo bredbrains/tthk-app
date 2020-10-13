@@ -137,7 +137,6 @@ namespace tthk_app
         {
             InitializeComponent();
             MainPageRefreshView.IsRefreshing = true;
-            SortChangesByDates();
             notificationManager = DependencyService.Get<INotificationManager>();
             // GetNotification();
             /* notificationManager.NotificationReceived += (sender, eventArgs) =>
@@ -184,6 +183,7 @@ namespace tthk_app
             {
                 HelloToUser.Text = "Tere!";
             }
+            SortChangesByDates();
             base.OnAppearing();
         }
 
