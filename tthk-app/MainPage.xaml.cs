@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
+using tthk_app.Models;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -13,10 +18,126 @@ namespace tthk_app
     {
         INotificationManager notificationManager;
         private int notificationNumber = 0;
-        string[] estMonths = new string[] {"jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"};
+
+        string[] estMonths = new string[]
+        {
+            "jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober",
+            "november", "detsember"
+        };
+
+        char[] estDayOfWeeks = new char[7] {'E', 'T', 'K', 'N', 'R', 'L', 'P'};
+
+        private void AddChangeToLabels(Change change, string userGroup)
+        {
+            DateTime changeDateTime = DateTime.ParseExact(change.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+            if (changeDateTime == DateTime.Now.Date && change.Group.Contains(userGroup))
+            {
+                TodayChangesInLabel.Text += $"Tund: {change.Lesson} Õpetaja: {change.Teacher} Ruum: {change.Room}";
+                TodayChangesInLabel.TextType = TextType.Html;
+                TodayChangesInLabel.Text = TodayChangesInLabel.Text.TrimEnd();
+            }
+            else if (changeDateTime > DateTime.Now.Date && change.Group.Contains(userGroup))
+            {
+                LaterChangesInLabel.Text +=
+                    $"<b>{estDayOfWeeks[change.DayOfWeek - 1].ToString()}, {change.Date}</b><br>Tund: {change.Lesson} Õpetaja: {change.Teacher} Ruum: {change.Room}<br>";
+                LaterChangesInLabel.TextType = TextType.Html;
+                LaterChangesInLabel.Text = LaterChangesInLabel.Text.TrimEnd();
+            }
+        }
+
+        private void SetNoneChangesToLabel(Label label)
+        {
+            label.Text = "Muudatused puuduvad";
+        }
+
+        private void CheckLabelsForBlankValues()
+        {
+            if (TodayChangesInLabel.Text.Length == 0)
+            {
+                SetNoneChangesToLabel(TodayChangesInLabel);
+            }
+            if (LaterChangesInLabel.Text.Length == 0)
+            {
+                SetNoneChangesToLabel(LaterChangesInLabel);
+            }
+        }
+
+        private async void SortChangesByDates()
+        {
+            string userGroup = Preferences.Get("group", "none");
+            var currentNetwork = Connectivity.NetworkAccess;
+
+            if (currentNetwork == NetworkAccess.Internet && userGroup != "none")
+            {
+                var changes = GetChangesFromInternet() as List<Change>;
+                if (changes != null && changes.Count > 0)
+                {
+                    TodayChangesInLabel.Text = "";
+                    LaterChangesInLabel.Text = "";
+                    foreach (var change in changes)
+                    {
+                        AddChangeToLabels(change, userGroup);
+                    }
+                    CheckLabelsForBlankValues();
+                }
+                else
+                {
+                    SetNoneChangesToLabel(TodayChangesInLabel);
+                    SetNoneChangesToLabel(LaterChangesInLabel);
+                }
+            }
+            else
+            {
+                var changes = await GetChangesFromDatabase();
+                if (changes != null && changes.Count > 0)
+                {
+                    TodayChangesInLabel.Text = "";
+                    LaterChangesInLabel.Text = "";
+                    foreach (var change in changes)
+                    {
+                        AddChangeToLabels(change, userGroup);
+                    }
+                    CheckLabelsForBlankValues();
+                }
+                else
+                {
+                    SetNoneChangesToLabel(TodayChangesInLabel);
+                    SetNoneChangesToLabel(LaterChangesInLabel);
+                }
+            }
+
+            if (userGroup == "none")
+            {
+                FastChangesLayout.Children.Clear();
+                FastChangesLayout.Children.Add(new Label()
+                {
+                    Text = "Teil pole ei ole määratud rühm.",
+                    HorizontalOptions = LayoutOptions.FillAndExpand,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    VerticalTextAlignment = TextAlignment.Center,
+                    FontAttributes = FontAttributes.Bold
+                });
+            }
+
+            MainPageRefreshView.IsRefreshing = false;
+        }
+        
+        private async Task<List<Change>> GetChangesFromDatabase()
+        {
+            return await App.Database.GetItemsAsync();
+        }
+
+        private IEnumerable<Change> GetChangesFromInternet()
+        {
+            return ChangeCollection.GetChangeList();
+        }
+        
         public MainPage()
         {
             InitializeComponent();
+            MainPageRefreshView.IsRefreshing = true;
+            SortChangesByDates();
             notificationManager = DependencyService.Get<INotificationManager>();
             // GetNotification();
             /* notificationManager.NotificationReceived += (sender, eventArgs) =>

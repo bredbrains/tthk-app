@@ -96,6 +96,7 @@ namespace tthk_app
             if (groupEnds.Any(x=> value.EndsWith(x)))
             {
                 Preferences.Set("group", value);
+                Navigation.PopToRootAsync();
             }
             else
             {
