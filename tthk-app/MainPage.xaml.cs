@@ -32,14 +32,14 @@ namespace tthk_app
             DateTime changeDateTime = DateTime.ParseExact(change.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
             if (changeDateTime == DateTime.Now.Date && change.Group.Contains(userGroup))
             {
-                TodayChangesInLabel.Text += $"Tund: {change.Lesson} Õpetaja: {change.Teacher} Ruum: {change.Room}";
+                TodayChangesInLabel.Text += $"Tund: {change.Lesson} Õpetaja: {change.Teacher} Ruum: {change.Room}<br>";
                 TodayChangesInLabel.TextType = TextType.Html;
                 TodayChangesInLabel.Text = TodayChangesInLabel.Text.TrimEnd();
             }
             else if (changeDateTime > DateTime.Now.Date && change.Group.Contains(userGroup))
             {
                 LaterChangesInLabel.Text +=
-                    $"<b>{estDayOfWeeks[change.DayOfWeek - 1].ToString()}, {change.Date}</b><br>Tund: {change.Lesson} Õpetaja: {change.Teacher} Ruum: {change.Room}<br>";
+                    $"<b>{estDayOfWeeks[change.DayOfWeek - 1].ToString()}, {change.Date}<br>Tund: {change.Lesson} Õpetaja: {change.Teacher} Ruum: {change.Room}<br>";
                 LaterChangesInLabel.TextType = TextType.Html;
                 LaterChangesInLabel.Text = LaterChangesInLabel.Text.TrimEnd();
             }
@@ -138,11 +138,18 @@ namespace tthk_app
             InitializeComponent();
             MainPageRefreshView.IsRefreshing = true;
             notificationManager = DependencyService.Get<INotificationManager>();
-            // GetNotification();
+            
             /* notificationManager.NotificationReceived += (sender, eventArgs) =>
             {
                 var evtData = (NotificationEventArgs)eventArgs;
             }; */
+            MessagingCenter.Subscribe<object, string>(this, "UpdateLabel", (s, e) =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    GetNotification();
+                });
+            });
         }
 
         void GetNotification()
