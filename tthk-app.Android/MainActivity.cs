@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
@@ -7,7 +8,11 @@ using Plugin.NFC;
 using Xamarin.Forms.Platform.Android;
 using Platform = Xamarin.Essentials.Platform;
 using Android.Content;
+using Android.Icu.Util;
 using Android.Nfc;
+using Android.Widget;
+using Xamarin.Essentials;
+using static Java.Util.CalendarField;
 
 namespace tthk_app.Droid
 {
@@ -28,17 +33,26 @@ namespace tthk_app.Droid
             Platform.Init(this, savedInstanceState);
             Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
-            
-            // CreateNotificationFromIntent(Intent);
-        }
-
-        void CreateNotificationFromIntent(Intent intent)
-        {
-            if (intent?.Extras != null)
+            bool notifications = Preferences.Get("changesNotifications", false);
+            if (notifications)
             {
-                string title = intent.Extras.GetString(AndroidNotificationManager.TitleKey);
-                string message = intent.Extras.GetString(AndroidNotificationManager.MessageKey);
-                DependencyService.Get<INotificationManager>().ReceiveNotification(title, message);
+                DateTime notificationsTime = Preferences.Get("changesNotificationsTime", DateTime.Today);
+                Calendar time = new GregorianCalendar();
+                time.Set(CalendarField.HourOfDay, notificationsTime.Hour);
+                time.Set(CalendarField.Minute, notificationsTime.Minute);
+                time.Set(CalendarField.Second, notificationsTime.Minute);
+                
+                Calendar pendingTime = new GregorianCalendar();
+                pendingTime.Set(CalendarField.HourOfDay, 24);
+                var alarmIntent = new Intent(this, typeof(BackgroundReceiver));
+                
+                string userGroup = Preferences.Get("group", "none");
+                
+                alarmIntent.PutExtra("title", "Teie rühma muudatused.");
+                alarmIntent.PutExtra("message", "Tere! Täna teie rühmal on järgmised muudatused:");
+                var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
+                var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
+                alarmManager.SetRepeating(AlarmType.RtcWakeup, time.TimeInMillis,pendingTime.TimeInMillis,pending);
             }
         }
 
