@@ -1,17 +1,16 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Media;
-using Android.OS;
 using Android.Support.V4.App;
-using Xamarin.Forms;
 
 namespace tthk_app.Droid
 {
     [BroadcastReceiver]
     public class BackgroundReceiver : BroadcastReceiver
     {
-        public const string URGENT_CHANNEL = "com.xamarin.myapp.urgent";
+        public const string URGENT_CHANNEL = "com.bredbrains.tthkapp";
         public const int NOTIFY_ID = 1100;
+        public const string NOTIFICATION_CHANNEL_ID = "tthkMuudatused";
         public override void OnReceive(Android.Content.Context context, Intent intent)
         {
             var message = intent.GetStringExtra("message");
@@ -26,7 +25,7 @@ namespace tthk_app.Droid
             intent.AddFlags(ActivityFlags.ClearTop);
             var pendingIntent = PendingIntent.GetActivity(context, 0, resultIntent, PendingIntentFlags.UpdateCurrent);
 
-            var notificationBuilder = new NotificationCompat.Builder(context)
+            var notificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .SetSmallIcon(Resource.Drawable.tthklogoapp)
                 .SetContentTitle(title)
                 .SetContentText(message)
