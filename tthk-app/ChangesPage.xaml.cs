@@ -116,11 +116,6 @@ namespace tthk_app
             }
         }
 
-        private void CheckAgainButtonOnClicked(object sender, EventArgs e)
-        {
-            ChecksConnection();
-        }
-
         public ChangesPage()
         {
             ChecksConnection();
