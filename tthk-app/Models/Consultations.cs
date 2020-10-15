@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace tthk-app.Models
+namespace tthk_app.Models
 {
     class Consultations
 {
