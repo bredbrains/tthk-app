@@ -17,19 +17,19 @@ namespace tthk_app.ParsingService
             var rows = doc.DocumentNode.SelectNodes("//table").Descendants("tr");
             foreach (var tr in rows)
             {
-                List<string> changeList = new List<string>();
+                List<string> changeRow = new List<string>();
                 foreach (var td in tr.ChildNodes)
                 {
                     _cellText = td.InnerText.Trim();
                     if (!stopList.Contains(_cellText))
                     {
-                        changeList.Add(_cellText);
+                        changeRow.Add(_cellText);
                     }
                 }
 
-                if (changeList.Count != 0)
+                if (changeRow.Count != 0)
                 {
-                    changeRows.Add(changeList);
+                    changeRows.Add(changeRow);
                 }
             }
 
