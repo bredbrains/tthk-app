@@ -44,4 +44,10 @@
   <ItemGroup>
     <Folder Include="Receivers" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="ConsultationsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

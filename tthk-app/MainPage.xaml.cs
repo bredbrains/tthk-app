@@ -150,6 +150,15 @@ namespace tthk_app
                     GetNotification();
                 });
             });
+
+            var tap = new TapGestureRecognizer();
+            ConsultationsLbl.GestureRecognizers.Add(tap);
+            tap.Tapped += ConsultationsPageTapped;
+        }
+
+        private void ConsultationsPageTapped(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new ConsultationsPage());
         }
 
         void GetNotification()
