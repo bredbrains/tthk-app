@@ -9,7 +9,6 @@ namespace tthk_app
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TimetablePage : ContentPage
     {
-
         public TimetablePage()
         {
             InitializeComponent();
