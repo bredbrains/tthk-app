@@ -26,11 +26,9 @@ namespace tthk_app
                 DependencyService.Get<IMessage>().ShortSnackbar("Teil puuduvad salvestatud andmed.");
             }
         }
-
         char[] estDayOfWeeks = new char[7] {'E', 'T', 'K', 'N', 'R', 'L', 'P'};
         public ObservableCollection<ChangeGrouping<string, Change>> ChangeGroups { get; set; }
         public List<Change> ParsedChanges { get; set; }
-
         private void LoadChanges(IEnumerable<Change> _changes)
         {
             ParsedChanges = _changes as List<Change>;
@@ -39,11 +37,9 @@ namespace tthk_app
             ChangeGroups = new ObservableCollection<ChangeGrouping<string, Change>>(groups);
             this.BindingContext = this;
         }
-
         private async Task ChecksConnection()
         {
             var current = Connectivity.NetworkAccess;
-
             if (current == NetworkAccess.Internet)
             {
                 Title = "Saan muudatused...";
@@ -55,7 +51,6 @@ namespace tthk_app
                 {
                     Content = activityIndicator;
                 }
-
                 await Task.Run(() => { LoadChanges(ChangeCollection.GetChangeList()); });
                 if (ChangesListView == null)
                 {
@@ -78,7 +73,6 @@ namespace tthk_app
                         Content = ChangesListView;
                     }
                 }
-
                 ChangesListView.IsRefreshing = false;
                 ChangesListView.RefreshControlColor = Color.FromHex("#A22538");
             }
@@ -106,7 +100,6 @@ namespace tthk_app
                     {
                         ChangesPageSearchBar.Placeholder = group;
                     }
-
                 }
                 else
                 {
@@ -117,11 +110,9 @@ namespace tthk_app
                 DependencyService.Get<IMessage>().ShortAlert("Teil puudub ühendus.");
             }
         }
-
         public ChangesPage()
         {
             ChecksConnection();
-            
         }
         private void ChangesListView_OnRefreshing(object sender, EventArgs e)
         {
@@ -152,8 +143,7 @@ namespace tthk_app
             });
         }
         private void ChangesPageSearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            
+        {   
             SearchBar searchBar = sender as SearchBar;
             if (searchBar != null && searchBar.Text != null && ParsedChanges != null)
             {
