@@ -27,7 +27,13 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout BackgroundColor="#781d2a" Padding="0,25">
-                <Image HeightRequest="150" Source="bredbrainswhite.png" />
+                <Image HeightRequest="150" Source="bredbrainswhite.png">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="ImageTapped"
+                            NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
             </StackLayout>
             <StackLayout Margin="0,25,0,0">
                 <Label
