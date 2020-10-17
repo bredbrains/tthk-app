@@ -8,8 +8,8 @@ namespace tthk_app.Models
     {
         public string Teacher { get; set; }
         public string Room { get; set; }
-        public List<Dictionary<DayOfWeek, string>> Time;
-        public Department TeacherDepartment;
+        public List<Dictionary<DayOfWeek, string>> Time { get; set; }
+        public Department TeacherDepartment { get; set; }
 
         public Consultation(string teacher, string room, List<Dictionary<DayOfWeek, string>> time, Department department)
         {
