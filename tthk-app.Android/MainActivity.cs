@@ -45,9 +45,7 @@ namespace tthk_app.Droid
                 Calendar pendingTime = new GregorianCalendar();
                 pendingTime.Set(CalendarField.HourOfDay, 24);
                 var alarmIntent = new Intent(this, typeof(BackgroundReceiver));
-                
                 string userGroup = Preferences.Get("group", "none");
-                
                 alarmIntent.PutExtra("title", "Teie rühma muudatused.");
                 alarmIntent.PutExtra("message", "Tere! Täna teie rühmal on järgmised muudatused:");
                 var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);

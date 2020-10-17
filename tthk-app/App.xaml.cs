@@ -3,6 +3,7 @@
     public partial class App
     {
         static ChangeDatabase database;
+
         public static ChangeDatabase Database
         {
             get
@@ -11,28 +12,23 @@
                 {
                     database = new ChangeDatabase();
                 }
+
                 return database;
             }
         }
-        
         public App()
         {
             InitializeComponent();
-
             MainPage = new AppShell();
         }
-
         protected override void OnStart()
         {
         }
-
         protected override void OnSleep()
         {
         }
-
         protected override void OnResume()
         {
         }
-        
     }
 }

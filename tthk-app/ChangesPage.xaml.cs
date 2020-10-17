@@ -78,6 +78,7 @@ namespace tthk_app
                         Content = ChangesListView;
                     }
                 }
+
                 ChangesListView.IsRefreshing = false;
                 ChangesListView.RefreshControlColor = Color.FromHex("#A22538");
             }
@@ -92,6 +93,7 @@ namespace tthk_app
                 {
                     Content = activityIndicator;
                 }
+
                 await GetChangesFromDatabase();
                 if (ChangesListView == null)
                 {
@@ -121,7 +123,6 @@ namespace tthk_app
             ChecksConnection();
             
         }
-
         private void ChangesListView_OnRefreshing(object sender, EventArgs e)
         {
             ChangesListView.IsRefreshing = true;
@@ -150,7 +151,6 @@ namespace tthk_app
                 Title = "Saata muudatus"
             });
         }
-
         private void ChangesPageSearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             
