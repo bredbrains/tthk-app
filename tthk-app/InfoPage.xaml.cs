@@ -33,5 +33,17 @@ namespace tthk_app
                 throw ex;
             }
         }
+
+        private async void SchoolLinkLabelTapped(object sender, EventArgs e)
+        {
+            try
+            {
+                await Browser.OpenAsync("https://tthk.ee/");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

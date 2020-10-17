@@ -49,7 +49,7 @@
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
                     Text="Autorid:" />
-                <Label HorizontalTextAlignment="Center" Text="Nikolas Laus&#x0a;Lev Petryakov&#x0a;Vladislav Narožni&#x0a;Rostislav Konovalov" />
+                <Label HorizontalTextAlignment="Center" Text="Nikolas Laus&#x0a;Lev Petryakov&#x0a;Vladislav Narožni&#x0a;Rostislav Konovalov&#x0a;Mikhail Shmelev" />
                 <Label
                     FontAttributes="Bold"
                     HorizontalTextAlignment="Center"
@@ -67,7 +67,12 @@
                 FontAttributes="Bold"
                 HorizontalTextAlignment="Center"
                 Text="www.tthk.ee"
-                x:Name="SiteOfSchoolLink" />
+                x:Name="SiteOfSchoolLink">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="SchoolLinkLabelTapped"/>
+                </Label.GestureRecognizers>
+            </Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
