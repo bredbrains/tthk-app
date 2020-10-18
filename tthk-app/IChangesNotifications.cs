@@ -4,7 +4,7 @@ using System.Text;
 
 namespace tthk_app
 {
-    public interface NotoficationInterface
+    public interface IChangesNotifications
     {
         void GetNotification(TimeSpan notificationTime);
         void CancelNotification();
