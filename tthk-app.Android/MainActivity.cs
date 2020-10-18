@@ -10,9 +10,6 @@ using Platform = Xamarin.Essentials.Platform;
 using Android.Content;
 using Android.Icu.Util;
 using Android.Nfc;
-using Android.Widget;
-using Xamarin.Essentials;
-using static Java.Util.CalendarField;
 
 namespace tthk_app.Droid
 {
@@ -63,7 +60,7 @@ namespace tthk_app.Droid
             alarmIntent = new Intent(Instance, typeof(BackgroundReceiver));
             alarmIntent.PutExtra("message", DateTime.Now.ToString());
             pending = PendingIntent.GetBroadcast(Instance, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-            alarmManager.SetRepeating(AlarmType.RtcWakeup, time, AlarmManager.IntervalFifteenMinutes, pending);
+            alarmManager.SetRepeating(AlarmType.RtcWakeup, time, AlarmManager.IntervalDay, pending); 
             //alarmManager.Set(AlarmType.RtcWakeup, 0, pending);
         }
 
