@@ -19,43 +19,59 @@ namespace tthk_app.Droid
     [Activity(Label = "THK", Icon = "@mipmap/tthklogoapp", Theme = "@style/MainTheme", MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
     [IntentFilter(new[] { NfcAdapter.ActionNdefDiscovered }, Categories = new[] { Intent.CategoryDefault }, DataMimeType = "application/com.bredbrains.tthk_app")]
+
     public class MainActivity : FormsAppCompatActivity
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        public bool notifications;
+        public Intent alarmIntent;
+        public PendingIntent pending;
+        public AlarmManager alarmManager;
+        public Calendar time;
+        internal static MainActivity Instance { get; private set; }
+        protected override void OnCreate(Bundle bundle)
         {
+            Instance = this;
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-            base.OnCreate(savedInstanceState);
 
-            // Plugin NFC: Initialization
-            CrossNFC.Init(this);    
+            base.OnCreate(bundle);
 
-            Platform.Init(this, savedInstanceState);
-            Forms.Init(this, savedInstanceState);
+            Platform.Init(this, bundle);
+            Forms.Init(this, bundle);
             LoadApplication(new App());
-            bool notifications = Preferences.Get("changesNotifications", false);
-            if (notifications)
-            {
-                DateTime notificationsTime = Preferences.Get("changesNotificationsTime", DateTime.Today);
-                Calendar time = new GregorianCalendar();
-                time.Set(CalendarField.HourOfDay, notificationsTime.Hour);
-                time.Set(CalendarField.Minute, notificationsTime.Minute);
-                time.Set(CalendarField.Second, notificationsTime.Minute);
-                
-                Calendar pendingTime = new GregorianCalendar();
-                pendingTime.Set(CalendarField.HourOfDay, 24);
-                var alarmIntent = new Intent(this, typeof(BackgroundReceiver));
-                
-                string userGroup = Preferences.Get("group", "none");
-                
-                alarmIntent.PutExtra("title", "Teie rühma muudatused.");
-                alarmIntent.PutExtra("message", "Tere! Täna teie rühmal on järgmised muudatused:");
-                var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-                var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
-                alarmManager.SetRepeating(AlarmType.RtcWakeup, time.TimeInMillis,pendingTime.TimeInMillis,pending);
-            }
+            notifications = false;
         }
 
+        public void SendMeAMessage(TimeSpan notificationTime)
+        {
+            long time = 0;
+            if (notificationTime.Hours > 12)
+            {
+                time = 24 - Math.Abs(DateTime.Now.Hour - notificationTime.Hours) * 1000 * 60 * 60 + Math.Abs(DateTime.Now.Minute - notificationTime.Minutes) * 1000 * 60;
+            }
+            else if (notificationTime.Hours < 12)
+            {
+                time = Math.Abs(DateTime.Now.Hour - notificationTime.Hours) * 1000 * 60 * 60 + Math.Abs(DateTime.Now.Minute - notificationTime.Minutes) * 1000 * 60;
+            }
+            else
+            {
+                time = 0;
+            }
+
+            alarmManager = (AlarmManager)Instance.GetSystemService(AlarmService);
+            alarmIntent = new Intent(Instance, typeof(BackgroundReceiver));
+            alarmIntent.PutExtra("message", DateTime.Now.ToString());
+            pending = PendingIntent.GetBroadcast(Instance, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
+            alarmManager.SetRepeating(AlarmType.RtcWakeup, time, AlarmManager.IntervalFifteenMinutes, pending);
+            //alarmManager.Set(AlarmType.RtcWakeup, 0, pending);
+        }
+
+        public void CancelTheNotification()
+        {
+            alarmManager.Cancel(pending);
+            pending.Cancel();
+        }
         protected override void OnNewIntent(Intent intent)
         {
             // base.OnNewIntent(intent);
