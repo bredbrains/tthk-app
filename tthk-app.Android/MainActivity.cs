@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
@@ -8,8 +9,8 @@ using Plugin.NFC;
 using Xamarin.Forms.Platform.Android;
 using Platform = Xamarin.Essentials.Platform;
 using Android.Content;
-using Android.Icu.Util;
 using Android.Nfc;
+using Calendar = Android.Icu.Util.Calendar;
 
 namespace tthk_app.Droid
 {
@@ -19,11 +20,11 @@ namespace tthk_app.Droid
 
     public class MainActivity : FormsAppCompatActivity
     {
-        public bool notifications;
-        public Intent alarmIntent;
-        public PendingIntent pending;
-        public AlarmManager alarmManager;
-        public Calendar time;
+        public bool Notifications;
+        public Intent AlarmIntent;
+        public PendingIntent Pending;
+        public AlarmManager AlarmManager;
+        public Calendar Time;
         internal static MainActivity Instance { get; private set; }
         protected override void OnCreate(Bundle bundle)
         {
@@ -37,7 +38,12 @@ namespace tthk_app.Droid
             Platform.Init(this, bundle);
             Forms.Init(this, bundle);
             LoadApplication(new App());
-            notifications = false;
+            Notifications = false;
+        }
+
+        public void GetTodayChangesForUser()
+        {
+            
         }
 
         public void SendMeAMessage(TimeSpan notificationTime)
@@ -56,18 +62,17 @@ namespace tthk_app.Droid
                 time = 0;
             }
 
-            alarmManager = (AlarmManager)Instance.GetSystemService(AlarmService);
-            alarmIntent = new Intent(Instance, typeof(BackgroundReceiver));
-            alarmIntent.PutExtra("message", DateTime.Now.ToString());
-            pending = PendingIntent.GetBroadcast(Instance, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-            alarmManager.SetRepeating(AlarmType.RtcWakeup, time, AlarmManager.IntervalDay, pending); 
-            //alarmManager.Set(AlarmType.RtcWakeup, 0, pending);
+            AlarmManager = (AlarmManager)Instance.GetSystemService(AlarmService);
+            AlarmIntent = new Intent(Instance, typeof(BackgroundReceiver));
+            AlarmIntent.PutExtra("message", DateTime.Now.ToString(CultureInfo.CurrentCulture));
+            Pending = PendingIntent.GetBroadcast(Instance, 0, AlarmIntent, PendingIntentFlags.UpdateCurrent);
+            AlarmManager?.SetRepeating(AlarmType.RtcWakeup, time, AlarmManager.IntervalDay, Pending);
         }
 
         public void CancelTheNotification()
         {
-            alarmManager.Cancel(pending);
-            pending.Cancel();
+            AlarmManager.Cancel(Pending);
+            Pending.Cancel();
         }
         protected override void OnNewIntent(Intent intent)
         {
