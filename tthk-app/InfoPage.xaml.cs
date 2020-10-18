@@ -22,5 +22,28 @@ namespace tthk_app
         {
             await Browser.OpenAsync("https://github.com/bredbrains/tthk-app");
         }
+        private async void ImageTapped(object sender, EventArgs args)
+        {
+            try
+            {
+                await Browser.OpenAsync("https://bredbrains.tech/");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private async void SchoolLinkLabelTapped(object sender, EventArgs e)
+        {
+            try
+            {
+                await Browser.OpenAsync("https://tthk.ee/");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
