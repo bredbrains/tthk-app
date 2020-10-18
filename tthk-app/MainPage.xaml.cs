@@ -16,7 +16,6 @@ namespace tthk_app
 
     public partial class MainPage
     {
-        INotificationManager notificationManager;
         private int notificationNumber = 0;
 
         string[] estMonths = new string[]

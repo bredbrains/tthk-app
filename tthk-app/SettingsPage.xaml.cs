@@ -89,8 +89,9 @@ namespace tthk_app
         {
             if (ChangesNotifcations.On)
             {
-                DependencyService.Get<NotoficationInterface>().GetNotification(NotificationTimePicker.Time);
+                DependencyService.Get<IChangesNotifications>().GetNotification(NotificationTimePicker.Time);
                 DependencyService.Get<IMessage>().ShortAlert("Märguanded on lubatud - " + NotificationTimePicker.Time.ToString());
+                DependencyService.Get<IMessage>().ShortAlert("Esimene teade " + Math.Abs(DateTime.Now.Hour - NotificationTimePicker.Time.Hours).ToString() + " tunni ja " + Math.Abs(DateTime.Now.Minute - NotificationTimePicker.Time.Minutes).ToString() + " minuti pärast.");
                 if (NotificationTimePicker.Time.Hours > 12 || DateTime.Now.Hour > 12)
                 {
                     DependencyService.Get<IMessage>().ShortAlert("Esimene teade " + (24 - Math.Abs(DateTime.Now.Hour - NotificationTimePicker.Time.Hours)).ToString() + " tunni ja " + Math.Abs(DateTime.Now.Minute - NotificationTimePicker.Time.Minutes).ToString() + " minuti pärast.");
@@ -102,7 +103,7 @@ namespace tthk_app
             }
             else
             {
-                DependencyService.Get<NotoficationInterface>().CancelNotification();
+                DependencyService.Get<IChangesNotifications>().CancelNotification();
                 DependencyService.Get<IMessage>().ShortAlert("Hoiatused on keelatud");
             }
         }
