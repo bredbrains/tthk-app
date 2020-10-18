@@ -11,7 +11,7 @@ namespace tthk_app.Droid
         public const string URGENT_CHANNEL = "com.bredbrains.tthkapp";
         public const int NOTIFY_ID = 1100;
         public const string NOTIFICATION_CHANNEL_ID = "tthkMuudatused";
-        public override void OnReceive(Android.Content.Context context, Intent intent)
+        public override void OnReceive(Context context, Intent intent)
         {
             var message = intent.GetStringExtra("message");
             var title = intent.GetStringExtra("title");
@@ -34,7 +34,7 @@ namespace tthk_app.Droid
                 .SetAutoCancel(true)
                 .SetChannelId(URGENT_CHANNEL);
 
-            NotificationManager notificationManager = (NotificationManager)context.GetSystemService(Android.Content.Context.NotificationService);
+            NotificationManager notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
             notificationManager.CreateNotificationChannel(chan);
 
             notificationManager.Notify(NOTIFY_ID, notificationBuilder.Build());

@@ -21,7 +21,6 @@
                     <SwitchCell
                         OnChanged="ChangesNotifcations_OnChanged"
                         Text="Teated muudatuste kohta"
-                        On="False"
                         x:Name="ChangesNotifcations" />
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" x:Name="NotificationTimePickerLayout">
