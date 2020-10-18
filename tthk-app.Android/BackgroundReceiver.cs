@@ -26,7 +26,7 @@ namespace tthk_app.Droid
             var pendingIntent = PendingIntent.GetActivity(context, 0, resultIntent, PendingIntentFlags.UpdateCurrent);
 
             var notificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-                .SetSmallIcon(Resource.Drawable.tthklogoapp)
+                .SetSmallIcon(Resource.Mipmap.tthklogoapp)
                 .SetContentTitle(title)
                 .SetContentText(message)
                 .SetContentIntent(pendingIntent)

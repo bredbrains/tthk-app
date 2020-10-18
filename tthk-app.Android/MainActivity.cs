@@ -22,11 +22,10 @@ namespace tthk_app.Droid
 
     public class MainActivity : FormsAppCompatActivity
     {
-        public bool notifications;
         public Intent alarmIntent;
         public PendingIntent pending;
         public AlarmManager alarmManager;
-        public Calendar time;
+        long time;
         internal static MainActivity Instance { get; private set; }
         protected override void OnCreate(Bundle bundle)
         {
@@ -40,19 +39,17 @@ namespace tthk_app.Droid
             Platform.Init(this, bundle);
             Forms.Init(this, bundle);
             LoadApplication(new App());
-            notifications = false;
         }
 
         public void SendMeAMessage(TimeSpan notificationTime)
-        {
-            long time = 0;
-            if (notificationTime.Hours > 12)
+        { 
+            if (notificationTime.Hours > 12 || DateTime.Now.Hour > 12)
             {
-                time = 24 - Math.Abs(DateTime.Now.Hour - notificationTime.Hours) * 1000 * 60 * 60 + Math.Abs(DateTime.Now.Minute - notificationTime.Minutes) * 1000 * 60;
+                time = ((24 - Math.Abs(DateTime.Now.Hour - notificationTime.Hours)) * 1000 * 60 * 60) + (Math.Abs(DateTime.Now.Minute - notificationTime.Minutes) * 1000 * 60);
             }
-            else if (notificationTime.Hours < 12)
+            else if (notificationTime.Hours < 12 || DateTime.Now.Hour < 12)
             {
-                time = Math.Abs(DateTime.Now.Hour - notificationTime.Hours) * 1000 * 60 * 60 + Math.Abs(DateTime.Now.Minute - notificationTime.Minutes) * 1000 * 60;
+                time = (Math.Abs(DateTime.Now.Hour - notificationTime.Hours) * 1000 * 60 * 60) + (Math.Abs(DateTime.Now.Minute - notificationTime.Minutes) * 1000 * 60);
             }
             else
             {
@@ -63,7 +60,7 @@ namespace tthk_app.Droid
             alarmIntent = new Intent(Instance, typeof(BackgroundReceiver));
             alarmIntent.PutExtra("message", DateTime.Now.ToString());
             pending = PendingIntent.GetBroadcast(Instance, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-            alarmManager.SetRepeating(AlarmType.RtcWakeup, time, AlarmManager.IntervalFifteenMinutes, pending);
+            alarmManager.SetRepeating(AlarmType.RtcWakeup, time, AlarmManager.IntervalDay, pending);
             //alarmManager.Set(AlarmType.RtcWakeup, 0, pending);
         }
 
