@@ -107,5 +107,13 @@ namespace tthk_app.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            Intent broadcastIntent = new Intent(Instance, typeof(BackgroundReceiver));
+            SendBroadcast(broadcastIntent);
+        }
     }
 }
