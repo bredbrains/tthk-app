@@ -15,7 +15,7 @@ using Android.Icu.Util;
 
 namespace tthk_app.Droid
 {
-    [Activity(Label = "THK", Icon = "@mipmap/tthklogoapp", Theme = "@style/MainTheme", MainLauncher = true,
+    [Activity(Label = "THK", Icon = "@drawable/tthklogoapp", Theme = "@style/MainTheme", MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
     [IntentFilter(new[] { NfcAdapter.ActionNdefDiscovered }, Categories = new[] { Intent.CategoryDefault }, DataMimeType = "application/com.bredbrains.tthk_app")]
 
@@ -24,10 +24,11 @@ namespace tthk_app.Droid
         public Intent alarmIntent;
         public PendingIntent pending;
         public AlarmManager alarmManager;
-        long time;
-        long hour;
-        long minute;
-        long second;
+        double exactTime;
+        TimeSpan time;
+        DateTime epoch;
+        TimeSpan tsEpoch;
+        long milliSinceEpoch;
         internal static MainActivity Instance { get; private set; }
         protected override void OnCreate(Bundle bundle)
         {
@@ -45,8 +46,6 @@ namespace tthk_app.Droid
 
         public void SendMeAMessage(TimeSpan notificationTime)
         {
-            double exactTime;
-            TimeSpan time;
 
             if (DateTime.Now.TimeOfDay.TotalMilliseconds > (12 * 3600000) || notificationTime.TotalMilliseconds > (12 * 3600000))
             {
@@ -74,18 +73,19 @@ namespace tthk_app.Droid
             if (exactTime > 24 * 3600000){ time = TimeSpan.FromMilliseconds(exactTime - (24 * 3600000)); }
             else { time = TimeSpan.FromMilliseconds(exactTime); }
 
-            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            TimeSpan tsEpoch = DateTime.UtcNow.Subtract(epoch);
-            long milliSinceEpoch = (long)tsEpoch.TotalMilliseconds;
+            epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            tsEpoch = DateTime.UtcNow.Subtract(epoch);
+            milliSinceEpoch = (long)tsEpoch.TotalMilliseconds;
 
             alarmManager = (AlarmManager)Instance.GetSystemService(Context.AlarmService);
             alarmIntent = new Intent(Instance, typeof(BackgroundReceiver));
-            alarmIntent.PutExtra("message", time.ToString());
+            alarmIntent.PutExtra("title", "Meeldetuletus");
+            alarmIntent.PutExtra("message", "Tutvuge asendajatega!");
             pending = PendingIntent.GetBroadcast(Instance, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-            alarmManager.SetRepeating(AlarmType.RtcWakeup, milliSinceEpoch + Convert.ToInt64(time.TotalMilliseconds), AlarmManager.IntervalFifteenMinutes, pending);
+            alarmManager.SetRepeating(AlarmType.RtcWakeup, milliSinceEpoch + Convert.ToInt64(time.TotalMilliseconds), AlarmManager.IntervalDay, pending);
             //Instance.alarmManager.Set(AlarmType.RtcWakeup, 0, pending);
         }
-
+            
         public void CancelTheNotification()
         {
             alarmManager.Cancel(pending);
@@ -111,9 +111,7 @@ namespace tthk_app.Droid
         protected override void OnDestroy()
         {
             base.OnDestroy();
-
-            Intent broadcastIntent = new Intent(Instance, typeof(BackgroundReceiver));
-            SendBroadcast(broadcastIntent);
+            alarmManager.SetRepeating(AlarmType.RtcWakeup, milliSinceEpoch + Convert.ToInt64(time.TotalMilliseconds), AlarmManager.IntervalDay, pending);
         }
     }
 }

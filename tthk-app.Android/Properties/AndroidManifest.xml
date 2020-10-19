@@ -1,18 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.bredbrains.tthk_app" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
-	<application android:label="THK" android:icon="@mipmap/tthklogoapp">
+﻿<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.bredbrains.tthk_app" android:installLocation="auto">
+  <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
+  <application android:label="THK" android:icon="@drawable/tthklogoapp">
       <receiver android:name=".BackgroundReceiver">
-      <intent-filter>
+        <intent-filter>
           <action android:name="android.intent.action.BOOT_COMPLETED" />
-      </intent-filter>
-  </receiver>
-  </application>
-  
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.NFC" /><uses-permission android:name="android.permission.WAKE_LOCK"/>
+        </intent-filter>
+      </receiver>
+    </application>
+
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.NFC" />
+  <uses-permission android:name="android.permission.WAKE_LOCK"/>
   <uses-feature android:name="android.hardware.nfc" android:required="false" />
-  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
 
 
