@@ -16,7 +16,6 @@ namespace tthk_app
 
     public partial class MainPage
     {
-        INotificationManager notificationManager;
         private int notificationNumber = 0;
 
         string[] estMonths = new string[]
@@ -137,36 +136,6 @@ namespace tthk_app
         {
             InitializeComponent();
             MainPageRefreshView.IsRefreshing = true;
-            notificationManager = DependencyService.Get<INotificationManager>();
-            
-            /* notificationManager.NotificationReceived += (sender, eventArgs) =>
-            {
-                var evtData = (NotificationEventArgs)eventArgs;
-            }; */
-            MessagingCenter.Subscribe<object, string>(this, "UpdateLabel", (s, e) =>
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    GetNotification();
-                });
-            });
-
-            var tap = new TapGestureRecognizer();
-            ConsultationsLbl.GestureRecognizers.Add(tap);
-            tap.Tapped += ConsultationsPageTapped;
-        }
-
-        private void ConsultationsPageTapped(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new ConsultationsPage());
-        }
-
-        void GetNotification()
-        {
-            notificationNumber++;
-            string title = $"Tunniplaani muudatused";
-            string message = $"Teil puuduvad muudatused.";
-            notificationManager.ScheduleNotification(title, message);
         }
 
         protected override void OnAppearing()

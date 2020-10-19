@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shiny;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -18,8 +19,9 @@ namespace tthk_app
             InitializeComponent();
             string name = Preferences.Get("name", "none");
             string group = Preferences.Get("group", "none");
-            bool notifications = Preferences.Get("changesNotifications", false);
-            DateTime notificationsTime = Preferences.Get("changesNotificationsTime", DateTime.Today);
+            string pickerTime = Preferences.Get("pickerTime", "none");
+            string switchValue = Preferences.Get("switchValue", "none");
+
             if (name != "none")
             {
                 UserName.Text = name;
@@ -37,21 +39,23 @@ namespace tthk_app
             {
                 UserGroup.Text = null;
             }
-            
-            if (notifications)
-            {
-                ChangesNotifcations.On = true;
-            }
 
-            if (notificationsTime != DateTime.Today && ChangesNotifcations.On)
+            if (pickerTime != "none")
             {
-                NotificationTimePicker.IsEnabled = true;
-                NotificationTimePicker.Time = new TimeSpan(notificationsTime.Hour, notificationsTime.Minute, notificationsTime.Second);
+                NotificationTimePicker.Time = TimeSpan.Parse(pickerTime);
             }
             else
             {
-                NotificationTimePicker.IsEnabled = false;
-                NotificationTimePicker.Time = new TimeSpan(notificationsTime.Hour, notificationsTime.Minute, notificationsTime.Second);
+                NotificationTimePicker.Time = TimeSpan.Parse("8:00:00");
+            }
+
+            if (switchValue != "none")
+            {
+                ChangesNotifcations.On = true;
+            }
+            else
+            {
+                ChangesNotifcations.On = false;
             }
         }
 
@@ -107,24 +111,53 @@ namespace tthk_app
         {
             if (ChangesNotifcations.On)
             {
-                Preferences.Set("changesNotifications", true);
-                NotificationTimePicker.IsEnabled = true;
+                Preferences.Set("switchValue", "on");
+                DependencyService.Get<IChangesNotifications>().GetNotification(NotificationTimePicker.Time);
+
+
+                double exactTime;
+                TimeSpan time;
+
+                if (DateTime.Now.TimeOfDay.TotalMilliseconds > (12 * 3600000) || NotificationTimePicker.Time.TotalMilliseconds > (12 * 3600000))
+                {
+                    if (DateTime.Now.TimeOfDay.TotalMilliseconds > (12 * 3600000) || DateTime.Now.TimeOfDay.TotalMilliseconds > NotificationTimePicker.Time.TotalMilliseconds)
+                    {
+                        exactTime = (24 * 3600000) - DateTime.Now.TimeOfDay.Subtract(NotificationTimePicker.Time).TotalMilliseconds;
+                    }
+                    else
+                    {
+                        exactTime = (24 * 3600000) - NotificationTimePicker.Time.Subtract(DateTime.Now.TimeOfDay).TotalMilliseconds;
+                    }
+                }
+                else 
+                {
+                    if (DateTime.Now.TimeOfDay.TotalMilliseconds > NotificationTimePicker.Time.TotalMilliseconds)
+                    {
+                        exactTime = DateTime.Now.TimeOfDay.Subtract(NotificationTimePicker.Time).TotalMilliseconds;
+                    }
+                    else
+                    {
+                        exactTime = NotificationTimePicker.Time.Subtract(DateTime.Now.TimeOfDay).TotalMilliseconds;
+                    }
+                }
+
+                time = TimeSpan.FromMilliseconds(exactTime);
+
+                DependencyService.Get<IMessage>().ShortAlert("Esimene teade " + time.Hours.ToString() + " tunni ja " + time.Minutes.ToString() + " minuti pärast.");
             }
             else
             {
-                Preferences.Set("changesNotifications", false);
-                NotificationTimePicker.IsEnabled = false;
+                Preferences.Set("switchValue", "none");
+                DependencyService.Get<IChangesNotifications>().CancelNotification();
+                DependencyService.Get<IMessage>().ShortAlert("Hoiatused on keelatud");
             }
         }
 
-        private void NotificationTimeChanged(object sender, PropertyChangedEventArgs e)
+        private void NotificationTimePicker_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Time" && ChangesNotifcations.On)
+            if (e.PropertyName == "Time")
             {
-                TimePicker tp = sender as TimePicker;
-                TimeSpan pickedTime = tp.Time;
-                DateTime changesTime = new DateTime(1, 1, 1) + pickedTime;
-                Preferences.Set("changesNotificationsTime", changesTime);
+                Preferences.Set("pickerTime", NotificationTimePicker.Time.ToString());
             }
         }
     }

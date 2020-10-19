@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
@@ -8,52 +9,88 @@ using Plugin.NFC;
 using Xamarin.Forms.Platform.Android;
 using Platform = Xamarin.Essentials.Platform;
 using Android.Content;
-using Android.Icu.Util;
 using Android.Nfc;
-using Android.Widget;
-using Xamarin.Essentials;
-using static Java.Util.CalendarField;
+using Calendar = Android.Icu.Util.Calendar;
+using Android.Icu.Util;
 
 namespace tthk_app.Droid
 {
-    [Activity(Label = "THK", Icon = "@mipmap/tthklogoapp", Theme = "@style/MainTheme", MainLauncher = true,
+    [Activity(Label = "THK", Icon = "@drawable/tthklogoapp", Theme = "@style/MainTheme", MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
     [IntentFilter(new[] { NfcAdapter.ActionNdefDiscovered }, Categories = new[] { Intent.CategoryDefault }, DataMimeType = "application/com.bredbrains.tthk_app")]
+
     public class MainActivity : FormsAppCompatActivity
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        public Intent alarmIntent;
+        public PendingIntent pending;
+        public AlarmManager alarmManager;
+        double exactTime;
+        TimeSpan time;
+        DateTime epoch;
+        TimeSpan tsEpoch;
+        long milliSinceEpoch;
+        internal static MainActivity Instance { get; private set; }
+        protected override void OnCreate(Bundle bundle)
         {
+            Instance = this;
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-            base.OnCreate(savedInstanceState);
 
-            // Plugin NFC: Initialization
-            CrossNFC.Init(this);    
+            base.OnCreate(bundle);
 
-            Platform.Init(this, savedInstanceState);
-            Forms.Init(this, savedInstanceState);
+            Platform.Init(this, bundle);
+            Forms.Init(this, bundle);
             LoadApplication(new App());
-            bool notifications = Preferences.Get("changesNotifications", false);
-            if (notifications)
-            {
-                DateTime notificationsTime = Preferences.Get("changesNotificationsTime", DateTime.Today);
-                Calendar time = new GregorianCalendar();
-                time.Set(CalendarField.HourOfDay, notificationsTime.Hour);
-                time.Set(CalendarField.Minute, notificationsTime.Minute);
-                time.Set(CalendarField.Second, notificationsTime.Minute);
-                
-                Calendar pendingTime = new GregorianCalendar();
-                pendingTime.Set(CalendarField.HourOfDay, 24);
-                var alarmIntent = new Intent(this, typeof(BackgroundReceiver));
-                string userGroup = Preferences.Get("group", "none");
-                alarmIntent.PutExtra("title", "Teie rühma muudatused.");
-                alarmIntent.PutExtra("message", "Tere! Täna teie rühmal on järgmised muudatused:");
-                var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-                var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
-                alarmManager.SetRepeating(AlarmType.RtcWakeup, time.TimeInMillis,pendingTime.TimeInMillis,pending);
-            }
         }
 
+        public void SendMeAMessage(TimeSpan notificationTime)
+        {
+
+            if (DateTime.Now.TimeOfDay.TotalMilliseconds > (12 * 3600000) || notificationTime.TotalMilliseconds > (12 * 3600000))
+            {
+                if (DateTime.Now.TimeOfDay.TotalMilliseconds > (12 * 3600000) && DateTime.Now.TimeOfDay.TotalMilliseconds > notificationTime.TotalMilliseconds || DateTime.Now.TimeOfDay.TotalMilliseconds > (12 * 3600000))
+                {
+                    exactTime = (24 * 3600000) - DateTime.Now.TimeOfDay.Subtract(notificationTime).TotalMilliseconds;
+                }
+                else
+                {
+                    exactTime = (24 * 3600000) - notificationTime.Subtract(DateTime.Now.TimeOfDay).TotalMilliseconds;
+                }
+            }
+            else
+            {
+                if (DateTime.Now.TimeOfDay.TotalMilliseconds > notificationTime.TotalMilliseconds)
+                {
+                    exactTime = DateTime.Now.TimeOfDay.Subtract(notificationTime).TotalMilliseconds;
+                }
+                else
+                {
+                    exactTime = notificationTime.Subtract(DateTime.Now.TimeOfDay).TotalMilliseconds;
+                }
+            }
+
+            if (exactTime > 24 * 3600000){ time = TimeSpan.FromMilliseconds(exactTime - (24 * 3600000)); }
+            else { time = TimeSpan.FromMilliseconds(exactTime); }
+
+            epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            tsEpoch = DateTime.UtcNow.Subtract(epoch);
+            milliSinceEpoch = (long)tsEpoch.TotalMilliseconds;
+
+            alarmManager = (AlarmManager)Instance.GetSystemService(Context.AlarmService);
+            alarmIntent = new Intent(Instance, typeof(BackgroundReceiver));
+            alarmIntent.PutExtra("title", "Meeldetuletus");
+            alarmIntent.PutExtra("message", "Tutvuge asendajatega!");
+            pending = PendingIntent.GetBroadcast(Instance, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
+            alarmManager.SetRepeating(AlarmType.RtcWakeup, milliSinceEpoch + Convert.ToInt64(time.TotalMilliseconds), AlarmManager.IntervalDay, pending);
+            //Instance.alarmManager.Set(AlarmType.RtcWakeup, 0, pending);
+        }
+            
+        public void CancelTheNotification()
+        {
+            alarmManager.Cancel(pending);
+            pending.Cancel();
+        }
         protected override void OnNewIntent(Intent intent)
         {
             // base.OnNewIntent(intent);
@@ -69,6 +106,12 @@ namespace tthk_app.Droid
             Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            alarmManager.SetRepeating(AlarmType.RtcWakeup, milliSinceEpoch + Convert.ToInt64(time.TotalMilliseconds), AlarmManager.IntervalDay, pending);
         }
     }
 }
