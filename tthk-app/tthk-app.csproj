@@ -9,6 +9,8 @@
     <Version>1.0.1</Version>
     <PackageIcon>tthklogoapp.png</PackageIcon>
     <Copyright>Nikolas Laus</Copyright>
+    <AssemblyOriginatorKeyFile>tthkAppSign.snk</AssemblyOriginatorKeyFile>
+    <PublicSign>false</PublicSign>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,16 +28,16 @@
     <EmbeddedResource Include="Resources\Fonts\SFProFont.ttf" />
     <None Remove="changes.db" />
     <None Remove="changes.db3" />
-    <EmbeddedResource Include="changes.db3" />
   </ItemGroup>
 
   <ItemGroup>
       <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
       <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
       <PackageReference Include="Plugin.NFC" Version="0.1.17" />
+      <PackageReference Include="Shiny.Core" Version="1.2.0.1755" />
       <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
       <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
-      <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
+      <PackageReference Include="Xamarin.Forms" Version="4.8.0.1560" />
       <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
   </ItemGroup>
 </Project>

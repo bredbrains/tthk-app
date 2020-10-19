@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Support.Design.Widget;
 using Android.Widget;
+using Google.Android.Material.Snackbar;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(tthk_app.Droid.MessageAndroid))]
@@ -21,12 +22,12 @@ namespace tthk_app.Droid
 
         public void LongAlert(string message)
         {
-            Toast.MakeText(Android.App.Application.Context, message, ToastLength.Long).Show();
+            Toast.MakeText(Android.App.Application.Context, message, ToastLength.Long)?.Show();
         }
 
         public void ShortAlert(string message)
         {
-            Toast.MakeText(Android.App.Application.Context, message, ToastLength.Short).Show();
+            Toast.MakeText(Android.App.Application.Context, message, ToastLength.Short)?.Show();
         }
 
         public void ShortSnackbar(string message)

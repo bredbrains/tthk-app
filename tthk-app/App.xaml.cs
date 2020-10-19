@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using tthk_app.Models;
-
-namespace tthk_app
+﻿namespace tthk_app
 {
     public partial class App
     {

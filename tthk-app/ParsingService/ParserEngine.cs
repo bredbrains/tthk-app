@@ -13,7 +13,6 @@ namespace tthk_app.ParsingService
             List<string> stopList = new List<string>() {"Kuupäev", "Rühm", "Tund", "Õpetaja", "Ruum", "", "\n", "\t"};
             var web = new HtmlWeb();
             var doc = web.Load(url);
-            CachingService cachingService = new CachingService(doc.ToString());
             List<List<string>> changeRows = new List<List<string>>();
             var rows = doc.DocumentNode.SelectNodes("//table").Descendants("tr");
             foreach (var tr in rows)

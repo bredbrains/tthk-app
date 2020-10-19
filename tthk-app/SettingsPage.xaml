@@ -22,6 +22,16 @@
                         OnChanged="ChangesNotifcations_OnChanged"
                         Text="Teated muudatuste kohta"
                         x:Name="ChangesNotifcations" />
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" x:Name="NotificationTimePickerLayout">
+                            <Label Margin="15,10,0,0" Text="Teate aeg" />
+                            <TimePicker
+                                PropertyChanged="NotificationTimePicker_PropertyChanged"
+                                Format="t"
+                                HorizontalOptions="EndAndExpand"
+                                x:Name="NotificationTimePicker" />
+                        </StackLayout>
+                    </ViewCell>
                 </TableSection>
                 <TableSection Title="Andmed">
                     <EntryCell
@@ -37,7 +47,7 @@
                 </TableSection>
                 <TableSection Title="Muud">
                     <ViewCell Tapped="AuthorsCellTapped">
-                        <StackLayout Margin="20,10,0,0" Orientation="Horizontal">
+                        <StackLayout Margin="15,10,0,0" Orientation="Horizontal">
                             <Label Text="Autorid" />
                         </StackLayout>
                     </ViewCell>
