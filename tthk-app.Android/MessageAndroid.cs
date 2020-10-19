@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Support.Design.Widget;
 using Android.Widget;
+using Google.Android.Material.Snackbar;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(tthk_app.Droid.MessageAndroid))]
