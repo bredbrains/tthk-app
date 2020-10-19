@@ -64,6 +64,7 @@
                         x:Name="LaterChangesInLabel" />
                 </StackLayout>
             </Frame>
+            <Label x:Name="ConsultationsLbl" Text="Konsultatsioonid"></Label>
             <ImageButton
                 Clicked="TelegramButtonClick"
                 HeightRequest="50"
