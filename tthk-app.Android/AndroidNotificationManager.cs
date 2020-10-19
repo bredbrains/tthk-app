@@ -4,8 +4,6 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.App;
-using tthk_app;
-using tthk_app.Droid;
 using Xamarin.Forms;
 using AndroidApp = Android.App.Application;
 
@@ -15,17 +13,17 @@ namespace tthk_app.Droid
 {
     public class AndroidNotificationManager : INotificationManager
     {
-        const string channelId = "default";
-        const string channelName = "Default";
-        const string channelDescription = "The default channel for notifications.";
-        const int pendingIntentId = 0;
+        const string ChannelId = "default";
+        const string ChannelName = "Default";
+        const string ChannelDescription = "The default channel for notifications.";
+        const int PendingIntentId = 0;
 
         public const string TitleKey = "title";
         public const string MessageKey = "message";
 
-        bool channelInitialized = false;
-        int messageId = -1;
-        NotificationManager manager;
+        bool _channelInitialized;
+        int _messageId = -1;
+        NotificationManager _manager;
 
         public event EventHandler NotificationReceived;
 
@@ -36,20 +34,20 @@ namespace tthk_app.Droid
 
         public int ScheduleNotification(string title, string message)
         {
-            if (!channelInitialized)
+            if (!_channelInitialized)
             {
                 CreateNotificationChannel();
             }
 
-            messageId++;
+            _messageId++;
 
             Intent intent = new Intent(AndroidApp.Context, typeof(MainActivity));
             intent.PutExtra(TitleKey, title);
             intent.PutExtra(MessageKey, message);
 
-            PendingIntent pendingIntent = PendingIntent.GetActivity(AndroidApp.Context, pendingIntentId, intent, PendingIntentFlags.OneShot);
+            PendingIntent pendingIntent = PendingIntent.GetActivity(AndroidApp.Context, PendingIntentId, intent, PendingIntentFlags.OneShot);
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(AndroidApp.Context, channelId)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(AndroidApp.Context, ChannelId)
                 .SetContentIntent(pendingIntent)
                 .SetContentTitle(title)
                 .SetContentText(message)
@@ -58,9 +56,9 @@ namespace tthk_app.Droid
                 .SetDefaults((int)NotificationDefaults.Sound | (int)NotificationDefaults.Vibrate);
 
             var notification = builder.Build();
-            manager.Notify(messageId, notification);
+            _manager.Notify(_messageId, notification);
 
-            return messageId;
+            return _messageId;
         }
 
         public void ReceiveNotification(string title, string message)
@@ -75,19 +73,19 @@ namespace tthk_app.Droid
 
         void CreateNotificationChannel()
         {
-            manager = (NotificationManager)AndroidApp.Context.GetSystemService(AndroidApp.NotificationService);
+            _manager = (NotificationManager)AndroidApp.Context.GetSystemService(Context.NotificationService);
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
-                var channelNameJava = new Java.Lang.String(channelName);
-                var channel = new NotificationChannel(channelId, channelNameJava, NotificationImportance.Default)
+                var channelNameJava = new Java.Lang.String(ChannelName);
+                var channel = new NotificationChannel(ChannelId, channelNameJava, NotificationImportance.Default)
                 {
-                    Description = channelDescription
+                    Description = ChannelDescription
                 };
-                manager.CreateNotificationChannel(channel);
+                _manager.CreateNotificationChannel(channel);
             }
 
-            channelInitialized = true;
+            _channelInitialized = true;
         }
     }
 }

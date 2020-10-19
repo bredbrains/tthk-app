@@ -13,24 +13,23 @@ namespace tthk_app.ParsingService
             List<string> stopList = new List<string>() {"Kuupäev", "Rühm", "Tund", "Õpetaja", "Ruum", "", "\n", "\t"};
             var web = new HtmlWeb();
             var doc = web.Load(url);
-            CachingService cachingService = new CachingService(doc.ToString());
             List<List<string>> changeRows = new List<List<string>>();
             var rows = doc.DocumentNode.SelectNodes("//table").Descendants("tr");
             foreach (var tr in rows)
             {
-                List<string> changeList = new List<string>();
+                List<string> changeRow = new List<string>();
                 foreach (var td in tr.ChildNodes)
                 {
                     _cellText = td.InnerText.Trim();
                     if (!stopList.Contains(_cellText))
                     {
-                        changeList.Add(_cellText);
+                        changeRow.Add(_cellText);
                     }
                 }
 
-                if (changeList.Count != 0)
+                if (changeRow.Count != 0)
                 {
-                    changeRows.Add(changeList);
+                    changeRows.Add(changeRow);
                 }
             }
 

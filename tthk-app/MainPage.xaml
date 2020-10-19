@@ -23,24 +23,55 @@
                 VerticalTextAlignment="Center" />
         </StackLayout>
     </Shell.TitleView>
-
     <ContentPage.ToolbarItems>
         <ToolbarItem Clicked="SettingsButtonClicked" IconImageSource="settings.png" />
     </ContentPage.ToolbarItems>
-    <StackLayout>
-        <StackLayout Margin="10,10,0,0" Orientation="Horizontal">
+    <RefreshView x:Name="MainPageRefreshView">
+        <StackLayout>
+            <StackLayout Margin="10,10,0,0" Orientation="Horizontal">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="Tere!"
+                    x:Name="HelloToUser" />
+                <Label FontSize="18" x:Name="TodayDateLabel" />
+            </StackLayout>
             <Label
                 FontAttributes="Bold"
                 FontSize="18"
-                Text="Tere, Nikolas!"
-                x:Name="HelloToUser" />
-            <Label FontSize="18" x:Name="TodayDateLabel" />
+                Margin="10,20,0,0"
+                Text="Muudatused" />
+            <Frame
+                BackgroundColor="Silver"
+                CornerRadius="15"
+                Margin="10,0">
+                <StackLayout x:Name="FastChangesLayout">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="17"
+                        Text="Täna" />
+                    <Label
+                        Margin="0"
+                        Text="Muudatused puuduvad"
+                        x:Name="TodayChangesInLabel" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="17"
+                        Text="Hiljem" />
+                    <Label
+                        Margin="0"
+                        Text="Muudatused puuduvad"
+                        x:Name="LaterChangesInLabel" />
+                </StackLayout>
+            </Frame>
+            <Label x:Name="ConsultationsLbl" Text="Konsultatsioonid"></Label>
+            <ImageButton
+                Clicked="TelegramButtonClick"
+                HeightRequest="50"
+                Margin="150,0"
+                Source="telegram.png"
+                VerticalOptions="End" />
         </StackLayout>
-        <ImageButton
-            Clicked="TelegramButtonClick"
-            HeightRequest="50"
-            Margin="50,0"
-            Source="telegram.png" />
-    </StackLayout>
+    </RefreshView>
 
 </ContentPage>
