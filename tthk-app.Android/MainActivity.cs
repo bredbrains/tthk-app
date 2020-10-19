@@ -82,7 +82,7 @@ namespace tthk_app.Droid
             alarmIntent = new Intent(Instance, typeof(BackgroundReceiver));
             alarmIntent.PutExtra("message", time.ToString());
             pending = PendingIntent.GetBroadcast(Instance, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-            alarmManager.SetRepeating(AlarmType.RtcWakeup, milliSinceEpoch + Convert.ToInt64(time.TotalMilliseconds), AlarmManager.IntervalDay, pending);
+            alarmManager.SetRepeating(AlarmType.RtcWakeup, milliSinceEpoch + Convert.ToInt64(time.TotalMilliseconds), AlarmManager.IntervalFifteenMinutes, pending);
             //Instance.alarmManager.Set(AlarmType.RtcWakeup, 0, pending);
         }
 

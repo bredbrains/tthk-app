@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shiny;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -18,6 +19,9 @@ namespace tthk_app
             InitializeComponent();
             string name = Preferences.Get("name", "none");
             string group = Preferences.Get("group", "none");
+            string pickerTime = Preferences.Get("pickerTime", "none");
+            string switchValue = Preferences.Get("switchValue", "none");
+
             if (name != "none")
             {
                 UserName.Text = name;
@@ -34,6 +38,24 @@ namespace tthk_app
             else
             {
                 UserGroup.Text = null;
+            }
+
+            if (pickerTime != "none")
+            {
+                NotificationTimePicker.Time = TimeSpan.Parse(pickerTime);
+            }
+            else
+            {
+                NotificationTimePicker.Time = TimeSpan.Parse("8:00:00");
+            }
+
+            if (switchValue != "none")
+            {
+                ChangesNotifcations.On = true;
+            }
+            else
+            {
+                ChangesNotifcations.On = false;
             }
         }
 
@@ -89,6 +111,7 @@ namespace tthk_app
         {
             if (ChangesNotifcations.On)
             {
+                Preferences.Set("switchValue", "on");
                 DependencyService.Get<IChangesNotifications>().GetNotification(NotificationTimePicker.Time);
 
 
@@ -124,8 +147,17 @@ namespace tthk_app
             }
             else
             {
+                Preferences.Set("switchValue", "none");
                 DependencyService.Get<IChangesNotifications>().CancelNotification();
                 DependencyService.Get<IMessage>().ShortAlert("Hoiatused on keelatud");
+            }
+        }
+
+        private void NotificationTimePicker_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Time")
+            {
+                Preferences.Set("pickerTime", NotificationTimePicker.Time.ToString());
             }
         }
     }

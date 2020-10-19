@@ -26,9 +26,9 @@
                         <StackLayout Orientation="Horizontal" x:Name="NotificationTimePickerLayout">
                             <Label Margin="15,10,0,0" Text="Teate aeg" />
                             <TimePicker
+                                PropertyChanged="NotificationTimePicker_PropertyChanged"
                                 Format="t"
                                 HorizontalOptions="EndAndExpand"
-                                Time="8:00:00"
                                 x:Name="NotificationTimePicker" />
                         </StackLayout>
                     </ViewCell>
