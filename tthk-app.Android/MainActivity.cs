@@ -45,33 +45,34 @@ namespace tthk_app.Droid
 
         public void SendMeAMessage(TimeSpan notificationTime)
         {
-            if (notificationTime.Hours > 12 || DateTime.Now.Hour > 12 || notificationTime.Hours == DateTime.Now.Hour) { hour = Math.Abs(notificationTime.Hours - DateTime.Now.Hour) * 3600000; }
-            else { hour = (24 - Math.Abs(notificationTime.Hours - DateTime.Now.Hour)) * 3600000; }
+            double exactTime;
+            TimeSpan time;
 
-
-            if (hour != 0)
+            if (DateTime.Now.TimeOfDay.TotalMilliseconds > (12 * 3600000) || notificationTime.TotalMilliseconds > (12 * 3600000))
             {
-                if (notificationTime.Minutes != 0) { minute = (60 - Math.Abs(notificationTime.Minutes - DateTime.Now.Minute)) * 60000; hour = hour - 3600000; }
-                else { minute = 0; }
+                if (DateTime.Now.TimeOfDay.TotalMilliseconds > (12 * 3600000) && DateTime.Now.TimeOfDay.TotalMilliseconds > notificationTime.TotalMilliseconds || DateTime.Now.TimeOfDay.TotalMilliseconds > (12 * 3600000))
+                {
+                    exactTime = (24 * 3600000) - DateTime.Now.TimeOfDay.Subtract(notificationTime).TotalMilliseconds;
+                }
+                else
+                {
+                    exactTime = (24 * 3600000) - notificationTime.Subtract(DateTime.Now.TimeOfDay).TotalMilliseconds;
+                }
             }
             else
             {
-                minute = Math.Abs(notificationTime.Minutes - DateTime.Now.Minute) * 60000;
+                if (DateTime.Now.TimeOfDay.TotalMilliseconds > notificationTime.TotalMilliseconds)
+                {
+                    exactTime = DateTime.Now.TimeOfDay.Subtract(notificationTime).TotalMilliseconds;
+                }
+                else
+                {
+                    exactTime = notificationTime.Subtract(DateTime.Now.TimeOfDay).TotalMilliseconds;
+                }
             }
 
-
-            if (minute != 0)
-            {
-                if (notificationTime.Seconds != 0) { second = (60 - Math.Abs(notificationTime.Seconds - DateTime.Now.Second)) * 1000; minute = minute - 60000; }
-                else { second = 0; }
-            }
-            else
-            {
-                second = Math.Abs(notificationTime.Seconds - DateTime.Now.Second) * 1000;
-            }
-
-
-            time = hour + minute + second;
+            if (exactTime > 24 * 3600000){ time = TimeSpan.FromMilliseconds(exactTime - (24 * 3600000)); }
+            else { time = TimeSpan.FromMilliseconds(exactTime); }
 
             DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             TimeSpan tsEpoch = DateTime.UtcNow.Subtract(epoch);
@@ -81,7 +82,7 @@ namespace tthk_app.Droid
             alarmIntent = new Intent(Instance, typeof(BackgroundReceiver));
             alarmIntent.PutExtra("message", time.ToString());
             pending = PendingIntent.GetBroadcast(Instance, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-            alarmManager.SetRepeating(AlarmType.RtcWakeup, milliSinceEpoch + time, AlarmManager.IntervalDay, pending);
+            alarmManager.SetRepeating(AlarmType.RtcWakeup, milliSinceEpoch + Convert.ToInt64(time.TotalMilliseconds), AlarmManager.IntervalDay, pending);
             //Instance.alarmManager.Set(AlarmType.RtcWakeup, 0, pending);
         }
 

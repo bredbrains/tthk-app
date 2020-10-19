@@ -89,57 +89,38 @@ namespace tthk_app
         {
             if (ChangesNotifcations.On)
             {
-                long hour;
-                long minute;
-                long second;
                 DependencyService.Get<IChangesNotifications>().GetNotification(NotificationTimePicker.Time);
 
 
-                if (NotificationTimePicker.Time.Hours > 12 || DateTime.Now.Hour > 12 || NotificationTimePicker.Time.Hours == DateTime.Now.Hour) { hour = Math.Abs(NotificationTimePicker.Time.Hours - DateTime.Now.Hour); }
-                else { hour = (24 - Math.Abs(NotificationTimePicker.Time.Hours - DateTime.Now.Hour)); }
+                double exactTime;
+                TimeSpan time;
 
+                if (DateTime.Now.TimeOfDay.TotalMilliseconds > (12 * 3600000) || NotificationTimePicker.Time.TotalMilliseconds > (12 * 3600000))
+                {
+                    if (DateTime.Now.TimeOfDay.TotalMilliseconds > (12 * 3600000) || DateTime.Now.TimeOfDay.TotalMilliseconds > NotificationTimePicker.Time.TotalMilliseconds)
+                    {
+                        exactTime = (24 * 3600000) - DateTime.Now.TimeOfDay.Subtract(NotificationTimePicker.Time).TotalMilliseconds;
+                    }
+                    else
+                    {
+                        exactTime = (24 * 3600000) - NotificationTimePicker.Time.Subtract(DateTime.Now.TimeOfDay).TotalMilliseconds;
+                    }
+                }
+                else 
+                {
+                    if (DateTime.Now.TimeOfDay.TotalMilliseconds > NotificationTimePicker.Time.TotalMilliseconds)
+                    {
+                        exactTime = DateTime.Now.TimeOfDay.Subtract(NotificationTimePicker.Time).TotalMilliseconds;
+                    }
+                    else
+                    {
+                        exactTime = NotificationTimePicker.Time.Subtract(DateTime.Now.TimeOfDay).TotalMilliseconds;
+                    }
+                }
 
-                if (hour != 0)
-                {
-                    if (NotificationTimePicker.Time.Minutes != 0) { minute = (60 - Math.Abs(NotificationTimePicker.Time.Minutes - DateTime.Now.Minute)); hour = hour - 1; }
-                    else { minute = 0; }
-                }
-                else
-                {
-                    minute = Math.Abs(NotificationTimePicker.Time.Minutes - DateTime.Now.Minute);
-                }
+                time = TimeSpan.FromMilliseconds(exactTime);
 
-
-                if (minute != 0)
-                {
-                    if (NotificationTimePicker.Time.Seconds != 0) { second = (60 - Math.Abs(NotificationTimePicker.Time.Seconds - DateTime.Now.Second)); minute = minute - 1; }
-                    else { second = 0; }
-                }
-                else
-                {
-                    second = Math.Abs(NotificationTimePicker.Time.Seconds - DateTime.Now.Second);
-                }
-
-                if (hour != 0 && minute == 0)
-                {
-                    DependencyService.Get<IMessage>().ShortAlert("Esimene teade " + hour.ToString() + " minuti pärast.");
-                }
-                else if (hour != 0 && minute != 0)
-                {
-                    DependencyService.Get<IMessage>().ShortAlert("Esimene teade " + hour.ToString() + " tunni ja " + minute.ToString() + " minuti pärast.");
-                }
-                else if (minute != 0 && hour == 0)
-                {
-                    DependencyService.Get<IMessage>().ShortAlert("Esimene teade " + minute.ToString() + " minuti pärast.");
-                }
-                else if (minute != 0 && second != 0)
-                {
-                    DependencyService.Get<IMessage>().ShortAlert("Esimene teade " + minute.ToString() + " minuti pärast. " + minute.ToString() + " sekundi pärast.");
-                }
-                else if (second != 0 && minute == 0)
-                {
-                    DependencyService.Get<IMessage>().ShortAlert("Esimene teade " + second.ToString() + " sekundi pärast.");
-                }
+                DependencyService.Get<IMessage>().ShortAlert("Esimene teade " + time.Hours.ToString() + " tunni ja " + time.Minutes.ToString() + " minuti pärast.");
             }
             else
             {
