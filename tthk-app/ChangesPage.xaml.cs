@@ -33,7 +33,7 @@ namespace tthk_app
         {
             ParsedChanges = _changes as List<Change>;
             var changes = _changes;
-            var groups = changes.GroupBy(c => estDayOfWeeks[c.DayOfWeek-1] + ", " + c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
+            var groups = changes.OrderBy(c => c.Lesson).GroupBy(c => estDayOfWeeks[c.DayOfWeek-1] + ", " + c.Date).Select(g => new ChangeGrouping<string, Change>(g.Key, g));
             ChangeGroups = new ObservableCollection<ChangeGrouping<string, Change>>(groups);
             this.BindingContext = this;
         }
