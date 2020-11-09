@@ -26,7 +26,7 @@ namespace tthk_app
                 DependencyService.Get<IMessage>().ShortSnackbar("Teil puuduvad salvestatud andmed.");
             }
         }
-        char[] estDayOfWeeks = new char[7] {'E', 'T', 'K', 'N', 'R', 'L', 'P'};
+        char[] estDayOfWeeks = new char[8] {'E', 'T', 'K', 'N', 'R', 'L', 'P', '?'};
         public ObservableCollection<ChangeGrouping<string, Change>> ChangeGroups { get; set; }
         public List<Change> ParsedChanges { get; set; }
         private void LoadChanges(IEnumerable<Change> _changes)

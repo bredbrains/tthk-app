@@ -28,19 +28,26 @@ namespace tthk_app
 
         private void AddChangeToLabels(Change change, string userGroup)
         {
-            DateTime changeDateTime = DateTime.ParseExact(change.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
-            if (changeDateTime == DateTime.Now.Date && change.Group.Contains(userGroup))
+            try
             {
-                TodayChangesInLabel.Text += $"Tund: {change.Lesson} Õpetaja: {change.Teacher} Ruum: {change.Room}<br>";
-                TodayChangesInLabel.TextType = TextType.Html;
-                TodayChangesInLabel.Text = TodayChangesInLabel.Text.TrimEnd();
+                DateTime changeDateTime = DateTime.ParseExact(change.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                if (changeDateTime == DateTime.Now.Date && change.Group.Contains(userGroup))
+                {
+                    TodayChangesInLabel.Text += $"Tund: {change.Lesson} Õpetaja: {change.Teacher} Ruum: {change.Room}<br>";
+                    TodayChangesInLabel.TextType = TextType.Html;
+                    TodayChangesInLabel.Text = TodayChangesInLabel.Text.TrimEnd();
+                }
+                else if (changeDateTime > DateTime.Now.Date && change.Group.Contains(userGroup))
+                {
+                    LaterChangesInLabel.Text +=
+                        $"<b>{estDayOfWeeks[change.DayOfWeek - 1].ToString()}, {change.Date}<br>Tund: {change.Lesson} Õpetaja: {change.Teacher} Ruum: {change.Room}<br>";
+                    LaterChangesInLabel.TextType = TextType.Html;
+                    LaterChangesInLabel.Text = LaterChangesInLabel.Text.TrimEnd();
+                }
             }
-            else if (changeDateTime > DateTime.Now.Date && change.Group.Contains(userGroup))
+            catch (Exception e)
             {
-                LaterChangesInLabel.Text +=
-                    $"<b>{estDayOfWeeks[change.DayOfWeek - 1].ToString()}, {change.Date}<br>Tund: {change.Lesson} Õpetaja: {change.Teacher} Ruum: {change.Room}<br>";
-                LaterChangesInLabel.TextType = TextType.Html;
-                LaterChangesInLabel.Text = LaterChangesInLabel.Text.TrimEnd();
+                
             }
         }
 
