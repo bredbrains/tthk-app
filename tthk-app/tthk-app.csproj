@@ -19,13 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Fonts\Samantha.ttf" />
-    <None Remove="Resources\Fonts\SFProFont.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Fonts\Samantha.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\SFProFont.ttf" />
     <None Remove="changes.db" />
     <None Remove="changes.db3" />
   </ItemGroup>

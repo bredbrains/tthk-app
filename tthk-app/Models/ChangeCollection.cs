@@ -11,6 +11,7 @@ namespace tthk_app.Models
         public static IEnumerable<Change> GetChangeList()
         {
             var changesList = new List<Change>();
+            DateTime changeDate;
             List<List<string>> changeRows;
             changeRows = ParserEngine.ParseChanges();
             App.Database.ClearTable();
@@ -19,10 +20,19 @@ namespace tthk_app.Models
                 foreach (var changesRow in changeRows)
                 {
                     Change change = new Change();
-                    DateTime changeDate =
-                        DateTime.ParseExact(changesRow[1], "dd.MM.yyyy", CultureInfo.InvariantCulture);
-                    change.Date = changeDate.ToString("dd.MM.yyyy");
-                    change.DayOfWeek = (int)changeDate.DayOfWeek;
+                    try
+                    {
+                        changeDate = DateTime.ParseExact(changesRow[1], "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                        change.Date = changeDate.ToString("dd.MM.yyyy");
+                        change.DayOfWeek = (int)changeDate.DayOfWeek;
+                    }
+                    catch (Exception e)
+                    {
+                        change.Date = "Ebakindel, külastage saiti!";
+                        change.DayOfWeek = 8;
+                    }
+                    
+                    
                     change.Group = changesRow[2];
                     change.Lesson = changesRow[3].Replace("&#8211;", "-");
                     change.Teacher = changesRow[4];
